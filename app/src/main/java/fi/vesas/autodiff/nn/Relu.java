@@ -19,11 +19,11 @@ public class Relu extends GradNode {
         return max(0, x);
     }
 
-    public void grad() {
+    public void grad(double g) {
         if (this.x.forward() > 0) {
-            this.x.grad += this.grad;
+            this.x.grad(g);
         }
-        this.x.grad();
+        this.x.grad(0);
     }
 
 }

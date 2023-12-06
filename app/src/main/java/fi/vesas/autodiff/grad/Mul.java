@@ -16,11 +16,15 @@ public class Mul extends GradNode {
     }
 
     @Override
-    public void grad() {
-        this.x.grad += this.y.forward() * this.grad;
-        this.y.grad += this.x.forward() * this.grad;
+    public void grad(double g) {
 
-        this.x.grad();
-        this.y.grad();
+        this.x.grad(this.y.forward() * g);
+        this.y.grad(this.x.forward() * g);
+    }
+
+    // toString
+    @Override
+    public String toString() {
+        return "Mul(" + this.x.toString() + " * " + this.y.toString() + ") = " + this.forward() + "";
     }
 }

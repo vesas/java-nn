@@ -68,4 +68,6 @@ public class DenseLayer {
             neuron.updateWeights(learningRate);
         }
     }
+
+    
 }

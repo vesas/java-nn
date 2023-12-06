@@ -28,15 +28,19 @@ public class Tanh extends GradNode {
     }
 
     @Override
-    public void grad() {
+    public void grad(double g) {
         
         double temp = x.forward();
         double tanh = Math.tanh(temp);    
         temp = 1- (tanh * tanh);
     
-        this.x.grad += this.grad * temp;
+        this.x.grad(g * temp);
+    }
     
-        this.x.grad();
+    // toString
+    @Override
+    public String toString() {
+        return "Tanh(" + this.x.toString() + ") = " + this.forward() + "";
     }
 
 }

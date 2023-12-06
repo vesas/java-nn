@@ -1,21 +1,21 @@
 package fi.vesas.autodiff.grad;
 
 /*
- * Add two values
+ * Subtract two values
  */
-public class Add extends GradNode {
+public class Sub extends GradNode {
 
     public GradNode x;
     public GradNode y;
 
-    public Add(GradNode x, GradNode y) {
+    public Sub(GradNode x, GradNode y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
     public double forward() {
-        return this.x.forward() + this.y.forward();
+        return this.x.forward() - this.y.forward();
     }
 
     /*
@@ -23,15 +23,15 @@ public class Add extends GradNode {
      */
     @Override
     public void grad(double g) {
-        this.grad = 1.0;
 
-        this.x.grad(this.grad * g);
-        this.y.grad(this.grad * g);
+        this.x.grad(1.0 * g);
+        this.y.grad(-1.0 * g);
     }
 
     // toString
     @Override
     public String toString() {
-        return "Add(" + this.x.toString() + " + " + this.y.toString() + ") = " + this.forward() + "";
+        return "Sub(" + this.x.toString() + " - " + this.y.toString() + ") = " + this.forward() + "";
     }
+    
 }

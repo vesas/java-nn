@@ -9,6 +9,7 @@ public class MLP {
 
 	public InputLayer inputLayer;
     public DenseLayer[] denseLayers;
+	public Error error = null;
 
     public MLP(int[] sizes) {
 
@@ -16,20 +17,15 @@ public class MLP {
 
 		denseLayers = new DenseLayer[sizes.length - 1];
 
-		Value [] inputs = this.inputLayer.getOutputs();
+		GradNode [] inputs = this.inputLayer.getOutputs();
 
 		for (int i = 1; i < sizes.length; i++) {
-			denseLayers[i-1] = new DenseLayer(inputs, "l" + i);
+			denseLayers[i-1] = new DenseLayer(inputs, sizes[i], "l" + i);
+			inputs = denseLayers[i-1].getOutputs();
 		}
-	}
 
-	public void printWeights() {
-
-		for (int i = 0; i < denseLayers.length; i++) {
-			DenseLayer layer = denseLayers[i];
-			System.out.println("layer " + i);
-			layer.printWeights();
-		}
+		error = new Error(inputs);
+		
 	}
 
 	public double[] forward(double[] x) {
@@ -50,15 +46,26 @@ public class MLP {
 			output[i] = value;
 		}
 
-		
-
 		// then return outputs
 		return output;
 
 	}
 
-	public void backward() {
-        denseLayers[(denseLayers.length -1)].backward();
+	public void zeroGrads() {
+		for (int i = 0; i < denseLayers.length; i++) {
+			DenseLayer layer = denseLayers[i];
+			layer.zeroGrads();
+		}
+	}
+
+	public void backward(double [] y) {
+
+		for (int i = 0; i < denseLayers.length; i++) {
+			DenseLayer layer = denseLayers[i];
+			layer.recordWeights();
+		}
+
+		error.backward(y);
 	}
 	
 	public void updateWeights(double learningRate) {
@@ -69,22 +76,6 @@ public class MLP {
 
 	static public void main(String [] args) {
 
-		MLP mlp = new MLP(new int [] {2, 3, 2});
-
-		mlp.printWeights();
-
-		double [] x = new double [] {1.0, 2.0};
-		double [] y = mlp.forward(x);
-
-		System.out.println("y: " + Arrays.toString(y));
-
-		double [] outputgrads = new double [] {1.0, 1.0};
-
-		mlp.backward();
-
-		mlp.updateWeights(0.1);
-
-		mlp.printWeights();
 	}
 
 	public void testSimple1() {
@@ -115,11 +106,24 @@ public class MLP {
                 System.out.println(">> rmsError: " + rmsError + " errorGrad: " + errorGrad);
                 outputgrads[0] = errorGrad;
 
-                mlp.backward();
+                mlp.backward(ys[i]);
                 mlp.updateWeights(learningRate);
 
                 // System.out.println(">> i: " + i + " preds " + preds[0]);
             }
         }
     }
+
+	public String toString() {
+		return "MLP: " + Arrays.toString(denseLayers);
+	}
+
+	public void printWeights() {
+
+		for (int i = 0; i < denseLayers.length; i++) {
+			DenseLayer layer = denseLayers[i];
+			System.out.println("layer " + i);
+			layer.printWeights();
+		}
+	}
 }

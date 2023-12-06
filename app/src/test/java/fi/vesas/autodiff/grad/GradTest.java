@@ -16,7 +16,7 @@ class GradTest {
         
         b.backward();
 
-        assertEquals(1.0, b.grad, 0.0001);
+        assertEquals(1.0, a.grad, 0.0001);
         assertEquals(6.0, b.forward(), 0.0001);
 
     }
@@ -33,16 +33,7 @@ class GradTest {
         
         e.backward();
 
-        double val1 = e.forward();
-
-        // tweak value a bit
-        c.value += h;
-
-        // do forward pass again
-        double val2 = e.forward();
-
-        // how much did the value change
-        double diff = (val2 - val1) / h;
+        double diff = Util.diff(e, c);
 
         // check that the backprogapaged gradient matches the forward pass estimate
         assertEquals(diff, c.grad, 0.0001);

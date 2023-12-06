@@ -13,6 +13,7 @@ public class AddMany extends GradNode {
 
     @Override
     public double forward() {
+
         double sum = 0.0;
         for (int i = 0; i < nodes.length; i++) {
             sum += nodes[i].forward();
@@ -24,11 +25,26 @@ public class AddMany extends GradNode {
      * Propagate the gradient
      */
     @Override
-    public void grad() {
+    public void grad(double g) {
+
+        this.grad = 1.0;
 
         for (int i = 0; i < nodes.length; i++) {
-            nodes[i].grad += this.grad;
-            nodes[i].grad();
+            nodes[i].grad(this.grad * g);
         }
+    }
+
+    // toString
+    @Override
+    public String toString() {
+        String s = "AddMany(";
+        for (int i = 0; i < nodes.length; i++) {
+            s += nodes[i].toString();
+            if (i < nodes.length - 1) {
+                s += " + ";
+            }
+        }
+        s += ") = " + this.forward() + "";
+        return s;
     }
 }

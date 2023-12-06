@@ -1,9 +1,10 @@
 package fi.vesas.autodiff.autodiffnn;
 
+import fi.vesas.autodiff.grad.AddMany;
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Mul;
-import fi.vesas.autodiff.grad.AddMany;
 import fi.vesas.autodiff.grad.Value;
+import fi.vesas.autodiff.util.Stats;
 import fi.vesas.autodiff.util.Util;
 
 public class Neuron {
@@ -12,12 +13,10 @@ public class Neuron {
     public Mul [] muls;
     public AddMany adds;
     public Value bias;
-    public Value output;
 
     public Tanh tanh = null;
 
     public GradNode [] inputs;
-    public double biasGrad;
     private String label;
 
     public Neuron(GradNode [] inputs, String label) {
@@ -30,10 +29,10 @@ public class Neuron {
 
         for(int i = 0; i < inputs.length; i++) {
 
-            this.weights[i] = new Value(Util.rangeRand(-1.0, 1.0));
+            this.weights[i] = new Value(Util.rangeGaussian(0.5));
             this.muls[i] = new Mul(this.weights[i], inputs[i]);
         }
-        this.bias = new Value(Util.rangeRand(-1.0, 1.0));
+        this.bias = new Value(Util.rangeGaussian(0.5));
 
         GradNode[] result = new GradNode[this.muls.length + 1];
         System.arraycopy(this.muls, 0, result, 0, this.muls.length);
@@ -49,24 +48,63 @@ public class Neuron {
         return this.tanh.forward();
     }
 
+    public void zeroGrads() {
+
+        for (int i = 0; i < inputs.length; i++ ) {
+            weights[i].zeroGrads();
+            muls[i].zeroGrads();
+        }
+        this.bias.zeroGrads();
+        this.adds.zeroGrads();
+        this.tanh.zeroGrads();
+	}
+
     public void backward() {
 
         this.tanh.backward();
     }
 
+    public void recordWeights() {
+            
+            for (int i = 0; i < inputs.length; i++ ) {
+                Stats.recordNeuronWeights(label, weights[i].value);
+            }
+            Stats.recordNeuronBias(label, this.bias.value);
+    }
 
     public void updateWeights(double learningRate) {
 
         for (int i = 0; i < weights.length; i++) {
-            this.weights[i].value += (this.weights[i].grad * learningRate);
+            this.weights[i].value -= this.weights[i].grad * learningRate;
         }
 
-        this.bias.value += (this.bias.grad * learningRate);
+        this.bias.value -= this.bias.grad * learningRate;
     }
 
     @Override
     public String toString() {
-        return "";
+        StringBuffer buf = new StringBuffer();
+        buf.append("Neuron ");
+        buf.append(this.label);
+        buf.append(" [weights=");
+
+        for (int i = 0; i < weights.length; i++) {
+            buf.append(" " + i + "=");
+            buf.append(this.weights[i].value);
+        }
+
+        buf.append(", bias=");
+        buf.append(bias.value);
+        buf.append("]");
+
+        buf.append(" [inputs=");
+        for (int i = 0; i < inputs.length; i++) {
+            buf.append(" " + i + "=");
+            buf.append(this.inputs[i].forward());
+        }
+        buf.append("]");
+
+        return buf.toString();
     }
 
 }

@@ -9,4 +9,8 @@ public class Util {
     public static double rangeRand(double min, double max) {
         return min + (max - min) * rand.nextDouble();
     }
+
+    public static double rangeGaussian(double range) {
+        return range * rand.nextGaussian();
+    }
 }

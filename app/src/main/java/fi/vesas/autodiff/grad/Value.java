@@ -17,6 +17,13 @@ public class Value extends GradNode {
     }
 
     @Override
-    public void grad() {
+    public void grad(double g) {
+        this.grad += g;
+    }
+
+    // toString
+    @Override
+    public String toString() {
+        return "Value(" + this.value + ", grad=" + this.grad + ")";
     }
 }
