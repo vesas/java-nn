@@ -22,6 +22,18 @@ public class SquareRoot extends GradNode {
     // toString
     @Override
     public String toString() {
-        return "SquareRoot(" + this.x.toString() + ") = " + this.forward() + "";
+        return "SquareRoot() = " + String.format("%.05f", this.forward()) + "";
+    }
+
+    @Override
+    public String toDotString() {
+        return "SquareRoot";
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x};
+        return children;
     }
 }

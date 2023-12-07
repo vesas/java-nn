@@ -11,6 +11,11 @@ public class Value extends GradNode {
         this.value = value;
     }
 
+    public Value(double value, String label) {
+        this.value = value;
+        this.label = label;
+    }
+
     @Override
     public double forward() {
         return this.value;
@@ -24,6 +29,18 @@ public class Value extends GradNode {
     // toString
     @Override
     public String toString() {
-        return "Value(" + this.value + ", grad=" + this.grad + ")";
+        return "Value_" + label + "(" + String.format("%.05f",this.value) + ", grad=" + String.format("%.05f", this.grad) + ")";
     }
+
+    @Override
+    public String toDotString() {
+        return "Value_" + label;
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        return new GradNode[0];
+    }
+
+    
 }

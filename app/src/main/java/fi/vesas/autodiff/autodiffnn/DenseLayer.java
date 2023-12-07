@@ -18,7 +18,7 @@ public class DenseLayer {
 
         for(int i = 0; i < size; i++) {
 
-            Neuron n = new Neuron( inputs, label + "-n" + i);
+            Neuron n = new Neuron( inputs, label + "n" + i);
             neurons[i] = n;
         }
     }

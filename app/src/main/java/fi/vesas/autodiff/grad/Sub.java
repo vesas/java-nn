@@ -13,6 +13,12 @@ public class Sub extends GradNode {
         this.y = y;
     }
 
+    public Sub(GradNode x, GradNode y, String label) {
+        this.x = x;
+        this.y = y;
+        this.label = label;
+    }
+
     @Override
     public double forward() {
         return this.x.forward() - this.y.forward();
@@ -24,14 +30,27 @@ public class Sub extends GradNode {
     @Override
     public void grad(double g) {
 
-        this.x.grad(1.0 * g);
-        this.y.grad(-1.0 * g);
+        this.grad = g;
+        this.x.grad(g);
+        this.y.grad(-g);
     }
 
     // toString
     @Override
     public String toString() {
-        return "Sub(" + this.x.toString() + " - " + this.y.toString() + ") = " + this.forward() + "";
+        return "Sub_" + label + "() = " + String.format("%.05f", this.forward()) + ", grad=" + String.format("%.05f", this.grad) + ")";
+    }
+
+    @Override
+    public String toDotString() {
+        return "Sub_" + label;
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x, this.y};
+        return children;
     }
     
 }

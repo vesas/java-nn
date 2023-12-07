@@ -15,17 +15,20 @@ public class Error {
 
     public GradNode exitNode;
 
-    public Error(GradNode [] yhat) {
-        this.yhat = yhat;
+    /*
+     * Inputs are the predictions for which we want to calculate the error
+     */
+    public Error(GradNode [] inputs) {
+        this.yhat = inputs;
 
-        this.truth = new Value[yhat.length];
+        this.truth = new Value[inputs.length];
 
-        GradNode [] squares = new GradNode[yhat.length];
+        GradNode [] squares = new GradNode[inputs.length];
 
         for(int i = 0; i < this.truth.length; i++) {
-            this.truth[i] = new Value(0.0);
+            this.truth[i] = new Value(0.0, "_e" + i);
 
-            squares[i] = new Square(new Sub(this.truth[i], yhat[i]));
+            squares[i] = new Square(new Sub(this.truth[i], inputs[i], "e" + i), "e" + i);
         }
 
         AddMany sum = new AddMany(squares);
@@ -34,6 +37,17 @@ public class Error {
         this.exitNode = mul;
         // add this for mean squared root error
         // this.exitNode = new SquareRoot(mul);
+    }
+
+    public void setTruth(double ... t) {
+        
+        for(int i = 0; i < t.length; i++) {
+            this.truth[i].value = t[i];
+        }
+    }
+
+    public double forward() {
+        return this.exitNode.forward();
     }
 
     public void backward(double [] y) {

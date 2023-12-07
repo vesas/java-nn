@@ -33,4 +33,16 @@ public class Relu extends GradNode {
         
     }
 
+    @Override
+    public String toDotString() {
+        return "Relu";
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x};
+        return children;
+    }
+
 }

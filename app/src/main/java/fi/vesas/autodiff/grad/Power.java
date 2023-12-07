@@ -20,4 +20,16 @@ public class Power extends GradNode {
 
         this.x.grad(power * Math.pow(this.x.forward(), power - 1) * g);
     }
+
+    @Override
+    public String toDotString() {
+        return "Power()" + " = " + String.format("%.05f", this.forward()) + "";
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x};
+        return children;
+    }
 }

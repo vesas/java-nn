@@ -11,12 +11,18 @@ public class AddMany extends GradNode {
         this.nodes = nodes;
     }
 
+    public AddMany(GradNode [] nodes, String label) {
+        this.nodes = nodes;
+        this.label = label;
+    }
+
     @Override
     public double forward() {
 
         double sum = 0.0;
         for (int i = 0; i < nodes.length; i++) {
-            sum += nodes[i].forward();
+            double value = nodes[i].forward();
+            sum = sum + value;
         }
         return sum;
     }
@@ -27,24 +33,28 @@ public class AddMany extends GradNode {
     @Override
     public void grad(double g) {
 
-        this.grad = 1.0;
+        this.grad = g;
 
         for (int i = 0; i < nodes.length; i++) {
-            nodes[i].grad(this.grad * g);
+            nodes[i].grad(this.grad * 1.0);
         }
     }
 
     // toString
     @Override
     public String toString() {
-        String s = "AddMany(";
-        for (int i = 0; i < nodes.length; i++) {
-            s += nodes[i].toString();
-            if (i < nodes.length - 1) {
-                s += " + ";
-            }
-        }
-        s += ") = " + this.forward() + "";
+        String s = "AddMany_" + label + "() = " + String.format("%.05f", this.forward()) + ", grad=" + String.format("%.08f", this.grad) + ")";
         return s;
+    }
+
+    @Override
+    public String toDotString() {
+        return "AddMany_" + label;
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        return nodes;
     }
 }

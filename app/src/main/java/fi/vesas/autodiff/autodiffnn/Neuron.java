@@ -29,18 +29,18 @@ public class Neuron {
 
         for(int i = 0; i < inputs.length; i++) {
 
-            this.weights[i] = new Value(Util.rangeGaussian(0.5));
-            this.muls[i] = new Mul(this.weights[i], inputs[i]);
+            this.weights[i] = new Value(Util.rangeGaussian(0.5), this.label + "w" + i);
+            this.muls[i] = new Mul(this.weights[i], inputs[i], this.label + "m" + i);
         }
-        this.bias = new Value(Util.rangeGaussian(0.5));
+        this.bias = new Value(Util.rangeGaussian(0.5), this.label + "b");
 
         GradNode[] result = new GradNode[this.muls.length + 1];
         System.arraycopy(this.muls, 0, result, 0, this.muls.length);
         result[result.length - 1] = this.bias;
 
-        adds = new AddMany(result);
+        adds = new AddMany(result, this.label + "am");
 
-        this.tanh = new Tanh(adds);
+        this.tanh = new Tanh(adds, this.label + "t");
 
     }
 

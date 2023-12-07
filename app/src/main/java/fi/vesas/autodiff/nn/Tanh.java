@@ -33,4 +33,16 @@ public class Tanh extends GradNode {
     // 
     // return 1- (tanh * tanh);
 
+    @Override
+    public String toDotString() {
+        return "Tanh()=" + this.forward() + "";
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x};
+        return children;
+    }
+
 }

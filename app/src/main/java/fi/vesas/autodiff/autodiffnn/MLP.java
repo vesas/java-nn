@@ -11,6 +11,13 @@ public class MLP {
     public DenseLayer[] denseLayers;
 	public Error error = null;
 
+	public MLP() {
+
+	}
+
+	/*
+	 * Init to some reasonable default values based on the layer sizes
+	 */
     public MLP(int[] sizes) {
 
 		this.inputLayer = new InputLayer(sizes[0]);
@@ -28,14 +35,18 @@ public class MLP {
 		
 	}
 
-	public double[] forward(double[] x) {
+	public void setInputValues(double[] x) {
 
-		// first feed input values
 		Value [] inputs = inputLayer.getOutputs();
 		for (int i = 0; i < x.length; i++) {
 			
 			inputs[i].value = x[i];
 		}
+	}
+
+	public double[] forward(double[] x) {
+
+		setInputValues(x);
 
 		// then feed forward
 		GradNode [] gradNodes = denseLayers[denseLayers.length -1].getOutputs();

@@ -36,4 +36,15 @@ public class LeakyRelu extends GradNode {
         
     }
 
+    @Override
+    public String toDotString() {
+        return "LeakyRelu";
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x};
+        return children;
+    }
 }

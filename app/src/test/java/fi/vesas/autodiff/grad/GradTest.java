@@ -7,12 +7,27 @@ import org.junit.jupiter.api.Test;
 class GradTest {
     
     /*
-     * Test if two same input values are calculated correctly
+     * Test if two same input values are calculated correctly, they refer to the same object.
      */
     @Test
     void testBug() {
         Value a = new Value(3.0f);
         Add b = new Add(a, a);
+        
+        b.backward();
+
+        assertEquals(2.0, a.grad, 0.0001);
+        assertEquals(6.0, b.forward(), 0.0001);
+
+    }
+
+    /*
+     * Test two same input values as separate values
+     */
+    @Test
+    void testBug2() {
+        Value a = new Value(3.0f);
+        Add b = new Add(a,  new Value(3.0f));
         
         b.backward();
 

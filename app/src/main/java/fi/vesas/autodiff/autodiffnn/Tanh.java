@@ -9,6 +9,11 @@ public class Tanh extends GradNode {
         this.x = x;
     }
 
+    public Tanh(GradNode x, String label) {
+        this.x = x;
+        this.label = label;
+    }
+
     public static double value(double x) {
         return Math.tanh(x);
     }
@@ -30,17 +35,29 @@ public class Tanh extends GradNode {
     @Override
     public void grad(double g) {
         
-        double temp = x.forward();
-        double tanh = Math.tanh(temp);    
-        temp = 1- (tanh * tanh);
+        double temp = this.forward();
+
+        this.grad = g * (1.0 - (temp * temp));
     
-        this.x.grad(g * temp);
+        this.x.grad(this.grad);
     }
     
     // toString
     @Override
     public String toString() {
-        return "Tanh(" + this.x.toString() + ") = " + this.forward() + "";
+        return "Tanh_" + label + "()=" + String.format("%.05f", this.forward()) + ", grad=" + String.format("%.08f", this.grad) + ")";
+    }
+
+    @Override
+    public String toDotString() {
+        return "Tanh_" + label;
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x};
+        return children;
     }
 
 }

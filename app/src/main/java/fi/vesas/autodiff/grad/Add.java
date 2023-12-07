@@ -23,15 +23,27 @@ public class Add extends GradNode {
      */
     @Override
     public void grad(double g) {
-        this.grad = 1.0;
+        this.grad = g;
 
-        this.x.grad(this.grad * g);
-        this.y.grad(this.grad * g);
+        this.x.grad(this.grad * 1.0);
+        this.y.grad(this.grad * 1.0);
     }
 
     // toString
     @Override
     public String toString() {
-        return "Add(" + this.x.toString() + " + " + this.y.toString() + ") = " + this.forward() + "";
+        return "Add() = " + String.format("%.05f", this.forward()) + ", grad=\"" + String.format("%.05f", this.grad) + ")";
+    }
+
+    @Override
+    public String toDotString() {
+        return "Add";
+    }
+
+    @Override
+    public GradNode[] getChildren() {
+        
+        GradNode [] children = {this.x, this.y};
+        return children;
     }
 }

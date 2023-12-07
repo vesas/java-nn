@@ -11,7 +11,7 @@ public class InputLayer {
         vals = new Value[size];
 
         for (int i = 0; i < size; i++) {
-            vals[i] = new Value(0.0);
+            vals[i] = new Value(0.0, "i" + i);
         }
     }
 
@@ -19,13 +19,15 @@ public class InputLayer {
         return vals;
     }
 
-    public void setInputs(double [] inputs) {
+    public void setInputValues(double [] inputs) {
         for (int i = 0; i < inputs.length; i++) {
             vals[i].value = inputs[i];
         }
     }
 
+    /*
     public float forward() {
         return 0;
     }
+     */
 }

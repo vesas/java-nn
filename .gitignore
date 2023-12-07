@@ -8,5 +8,7 @@ gradle
 
 data
 
-
 *.class
+
+*.svg
+*.dot
