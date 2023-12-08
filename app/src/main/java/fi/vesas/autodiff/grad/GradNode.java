@@ -17,9 +17,7 @@ public abstract class GradNode {
      */
     public abstract void grad(double g);
 
-    public void zeroGrads() {
-        this.grad = 0.0;
-    }
+    public abstract void zeroGrads();
 
     // starts a backward pass from this node.
     public void backward() {

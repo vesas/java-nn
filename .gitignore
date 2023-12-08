@@ -12,3 +12,7 @@ data
 
 *.svg
 *.dot
+
+venv
+
+*.csv

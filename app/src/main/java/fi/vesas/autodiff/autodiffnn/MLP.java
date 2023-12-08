@@ -63,10 +63,7 @@ public class MLP {
 	}
 
 	public void zeroGrads() {
-		for (int i = 0; i < denseLayers.length; i++) {
-			DenseLayer layer = denseLayers[i];
-			layer.zeroGrads();
-		}
+		error.exitNode.zeroGrads();
 	}
 
 	public void backward(double [] y) {

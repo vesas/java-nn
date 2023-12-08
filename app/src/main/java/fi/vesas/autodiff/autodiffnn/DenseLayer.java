@@ -25,7 +25,7 @@ public class DenseLayer {
         GradNode [] outputs = new GradNode[neurons.length];
 
         for(int i = 0; i < neurons.length; i++) {
-            outputs[i] = neurons[i].sigmoid;
+            outputs[i] = neurons[i].tanh;
         }
 
         return outputs;

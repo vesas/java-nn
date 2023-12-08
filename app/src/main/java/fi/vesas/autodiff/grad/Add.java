@@ -29,6 +29,13 @@ public class Add extends GradNode {
         this.y.grad(this.grad * 1.0);
     }
 
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        this.x.zeroGrads();
+        this.y.zeroGrads();
+    }
+
     // toString
     @Override
     public String toString() {

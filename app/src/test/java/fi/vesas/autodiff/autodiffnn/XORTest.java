@@ -1,11 +1,13 @@
 package fi.vesas.autodiff.autodiffnn;
 
+import java.util.Locale;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.util.DotFile;
+import fi.vesas.autodiff.util.Log;
 import fi.vesas.autodiff.util.Util;
 
 /*
@@ -63,18 +65,20 @@ public class XORTest {
         validationXs = Util.normalize(validationXs, -1.0, 1.0);
         validationYs = Util.normalize(validationYs, -1.0, 1.0);
 
-        double learningRate = 0.001;
+        double learningRate = 0.01;
 
-        MLP mlp = new MLP(new int[] {2, 4, 1});
+        MLP mlp = new MLP(new int[] {2, 2, 1});
 
-        for(int q = 0; q  < 1; q++) {
+        Log.logHeader("round", "error");
+        for(int q = 0; q  < 20; q++) {
             System.out.print(">> round: " + q + " ");
 
 
             for(int i = 0; i < trainXs.length; i++) {
                 
-                double [] preds = mlp.forward(trainXs[i]);
-                mlp.backward(trainYs[i]);
+                int index = rand.nextInt(trainXs.length);
+                double [] preds = mlp.forward(trainXs[index]);
+                mlp.backward(trainYs[index]);
 
                 StringBuffer sb = new StringBuffer();
 
@@ -84,7 +88,7 @@ public class XORTest {
                 }
 
                 sb.append(" ys: ");
-                for (double d : trainYs[i]) {
+                for (double d : trainYs[index]) {
                     sb.append(d + " ");
                 }
 
@@ -95,9 +99,9 @@ public class XORTest {
             }
 
             // mlp.printWeights();
-            // mlp.updateWeights(learningRate);
+            mlp.updateWeights(learningRate);
             // mlp.printWeights();
-            // mlp.zeroGrads();
+            mlp.zeroGrads();
 
             // calculate error
             double error = 0.0;
@@ -119,10 +123,12 @@ public class XORTest {
             }
             
             System.out.println("Total error: " + error);
+            Log.log("" + q, String.format(Locale.ROOT, "%.6f", error));
 
             mlp.backward(trainYs[0]);
 
-            DotFile.gen(mlp.error.exitNode, "xor" + q + ".dot");
+            // if(q % 100 == 0)
+                // DotFile.gen(mlp.error.exitNode, "xor" + q + ".dot");
         }
 
         for(int i = 0; i < origValidationXs.length; i++) {

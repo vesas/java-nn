@@ -23,6 +23,12 @@ public class Power extends GradNode {
     }
 
     @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        x.zeroGrads();
+    }
+
+    @Override
     public String toDotString() {
         return "Power()" + " = " + String.format("%.05f", this.forward()) + "";
     }

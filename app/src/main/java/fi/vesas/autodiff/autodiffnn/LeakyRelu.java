@@ -33,7 +33,12 @@ public class LeakyRelu extends GradNode {
         else {
             this.x.grad(NEGATIVE_SLOPE * g);
         }
-        
+    }
+
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        this.x.zeroGrads();
     }
 
     @Override

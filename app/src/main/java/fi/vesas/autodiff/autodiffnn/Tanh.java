@@ -41,6 +41,12 @@ public class Tanh extends GradNode {
     
         this.x.grad(this.grad);
     }
+
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        this.x.zeroGrads();
+    }
     
     // toString
     @Override

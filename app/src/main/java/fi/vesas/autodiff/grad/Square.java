@@ -28,6 +28,12 @@ public class Square extends GradNode {
         this.x.grad(temp);
     }
 
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        x.zeroGrads();
+    }
+
     // toString
     @Override
     public String toString() {

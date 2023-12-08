@@ -33,6 +33,12 @@ public class Sigmoid extends GradNode {
         this.x.grad((1 - temp *  temp ) * g);
     }
 
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        this.x.zeroGrads();
+    }
+
     // toString
     @Override
     public String toString() {

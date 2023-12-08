@@ -1,10 +1,13 @@
 package fi.vesas.autodiff.util;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class Util {
     
-    static Random rand = new Random(31);
+    static Random rand = new Random(1);
     
     public static double rangeRand(double min, double max) {
         return min + (max - min) * rand.nextDouble();
@@ -69,4 +72,10 @@ public class Util {
         }
         return normalized;
     }
+
+    /*
+    public static double [] randomizeOrder(double [] vals) {
+
+    }
+     */
 }

@@ -19,13 +19,9 @@ public class Stats {
             vals = new ArrayList<List<Double>>();
             neuronWeights.put(label, vals);
         }
-
-
     }
-
 
     public static void recordNeuronBias(String label, double value) {
 
     }
-
 }

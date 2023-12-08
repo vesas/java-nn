@@ -24,6 +24,13 @@ public class Sub extends GradNode {
         return this.x.forward() - this.y.forward();
     }
 
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        x.zeroGrads();
+        y.zeroGrads();
+    }
+
     /*
      * Propagate the gradient
      */

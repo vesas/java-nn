@@ -40,6 +40,14 @@ public class AddMany extends GradNode {
         }
     }
 
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        for (int i = 0; i < nodes.length; i++) {
+            nodes[i].zeroGrads();
+        }
+    }
+
     // toString
     @Override
     public String toString() {

@@ -29,6 +29,13 @@ public class Mul extends GradNode {
         this.y.grad(this.x.forward() * g);
     }
 
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        x.zeroGrads();
+        y.zeroGrads();
+    }
+
     // toString
     @Override
     public String toString() {

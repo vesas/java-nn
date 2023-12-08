@@ -26,6 +26,11 @@ public class Value extends GradNode {
         this.grad += g;
     }
 
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+    }
+
     // toString
     @Override
     public String toString() {

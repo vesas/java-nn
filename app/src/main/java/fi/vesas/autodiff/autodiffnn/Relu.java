@@ -30,7 +30,12 @@ public class Relu extends GradNode {
         else {
             this.x.grad(0);
         }
-        
+    }
+
+    @Override
+    public void zeroGrads(){
+        this.grad = 0.0;
+        this.x.zeroGrads();
     }
 
     @Override
