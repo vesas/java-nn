@@ -1,5 +1,5 @@
 
-Neural networks with backprop in java
+Neural networks with automatic differentiation and backprop in java. 
 
 ## Test cases:
 
@@ -31,3 +31,4 @@ The MSE error is plotted here.
 Try:
 
 -MNIST
+-Vectorization
