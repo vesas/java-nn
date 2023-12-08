@@ -2,9 +2,7 @@ package fi.vesas.autodiff.autodiffnn;
 
 import java.util.Arrays;
 
-import fi.vesas.autodiff.grad.AddMany;
 import fi.vesas.autodiff.grad.GradNode;
-import fi.vesas.autodiff.grad.Value;
 
 public class DenseLayer {
     
@@ -27,7 +25,7 @@ public class DenseLayer {
         GradNode [] outputs = new GradNode[neurons.length];
 
         for(int i = 0; i < neurons.length; i++) {
-            outputs[i] = neurons[i].tanh;
+            outputs[i] = neurons[i].sigmoid;
         }
 
         return outputs;

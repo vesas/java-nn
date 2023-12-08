@@ -14,7 +14,7 @@ public class Neuron {
     public AddMany adds;
     public Value bias;
 
-    public Tanh tanh = null;
+    public Sigmoid sigmoid = null;
 
     public GradNode [] inputs;
     private String label;
@@ -29,7 +29,7 @@ public class Neuron {
 
         for(int i = 0; i < inputs.length; i++) {
 
-            this.weights[i] = new Value(Util.rangeGaussian(0.5), this.label + "w" + i);
+            this.weights[i] = new Value(Util.rangeRand(0.9, 0.9), this.label + "w" + i);
             this.muls[i] = new Mul(this.weights[i], inputs[i], this.label + "m" + i);
         }
         this.bias = new Value(Util.rangeGaussian(0.5), this.label + "b");
@@ -40,12 +40,12 @@ public class Neuron {
 
         adds = new AddMany(result, this.label + "am");
 
-        this.tanh = new Tanh(adds, this.label + "t");
+        this.sigmoid = new Sigmoid(adds, this.label + "t");
 
     }
 
     public double forward() {
-        return this.tanh.forward();
+        return this.sigmoid.forward();
     }
 
     public void zeroGrads() {
@@ -56,12 +56,12 @@ public class Neuron {
         }
         this.bias.zeroGrads();
         this.adds.zeroGrads();
-        this.tanh.zeroGrads();
+        this.sigmoid.zeroGrads();
 	}
 
     public void backward() {
 
-        this.tanh.backward();
+        this.sigmoid.backward();
     }
 
     public void recordWeights() {

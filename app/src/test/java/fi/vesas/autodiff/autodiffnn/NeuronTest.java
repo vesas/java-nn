@@ -55,7 +55,7 @@ class NeuronTest {
         n.bias.value = 0.0;
 
         Value v3 = new Value(1.0);
-        Mul m = new Mul(n.tanh, v3);
+        Mul m = new Mul(n.sigmoid, v3);
 
         m.backward();
         n.updateWeights(1000.0);

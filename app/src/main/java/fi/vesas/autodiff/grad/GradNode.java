@@ -15,8 +15,7 @@ public abstract class GradNode {
     /**
      * Calculates gradients for this node and its parents.
      */
-    public void grad(double g) {
-    }
+    public abstract void grad(double g);
 
     public void zeroGrads() {
         this.grad = 0.0;

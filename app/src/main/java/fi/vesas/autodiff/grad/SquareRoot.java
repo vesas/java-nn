@@ -16,6 +16,7 @@ public class SquareRoot extends GradNode {
     @Override
     public void grad(double g) {
 
+        this.grad = g;
         this.x.grad((1.0 / (2.0 * Math.sqrt(this.x.forward()))) * g);
     }
 

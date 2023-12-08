@@ -18,6 +18,7 @@ public class Power extends GradNode {
     @Override
     public void grad(double g) {
 
+        this.grad = g;
         this.x.grad(power * Math.pow(this.x.forward(), power - 1) * g);
     }
 

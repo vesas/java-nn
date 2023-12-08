@@ -16,7 +16,7 @@ public class XORTest {
     @Test
     public void testXOR() {
 
-        Random rand = new Random(2);
+        Random rand = new Random(3);
 
         // we have four cases
         double [][] xscases = {{0.0,0.0},
@@ -29,12 +29,14 @@ public class XORTest {
                         {0.0}};
 
         int exampleCount = 4;
-        int trainSize = 35;
-        int validationSize = 25;
+        int trainSize = 75;
+        int validationSize = 35;
 
         double [][] trainXs = new double[trainSize][];
         double [][] trainYs = new double[trainSize][];
 
+        double [][] origValidationXs = new double[validationSize][];
+        double [][] origValidationYs = new double[validationSize][];
         double [][] validationXs = new double[validationSize][];
         double [][] validationYs = new double[validationSize][];
 
@@ -48,8 +50,11 @@ public class XORTest {
         for(int i = 0; i < validationSize; i++) {
             int rnd = rand.nextInt(exampleCount);
             
-            validationXs[i] = xscases[rnd];
-            validationYs[i] = yscases[rnd];
+            validationXs[i]     = xscases[rnd];
+            origValidationXs[i] = xscases[rnd];
+
+            validationYs[i]     = yscases[rnd];
+            origValidationYs[i] = yscases[rnd];
         }
 
         trainXs = Util.normalize(trainXs, -1.0, 1.0);
@@ -58,11 +63,11 @@ public class XORTest {
         validationXs = Util.normalize(validationXs, -1.0, 1.0);
         validationYs = Util.normalize(validationYs, -1.0, 1.0);
 
-        double learningRate = 0.1;
+        double learningRate = 0.001;
 
         MLP mlp = new MLP(new int[] {2, 4, 1});
 
-        for(int q = 0; q  < 82; q++) {
+        for(int q = 0; q  < 1; q++) {
             System.out.print(">> round: " + q + " ");
 
 
@@ -90,9 +95,9 @@ public class XORTest {
             }
 
             // mlp.printWeights();
-            mlp.updateWeights(learningRate);
+            // mlp.updateWeights(learningRate);
             // mlp.printWeights();
-            mlp.zeroGrads();
+            // mlp.zeroGrads();
 
             // calculate error
             double error = 0.0;
@@ -115,16 +120,21 @@ public class XORTest {
             
             System.out.println("Total error: " + error);
 
-            // mlp.backward(trainYs[0]);
+            mlp.backward(trainYs[0]);
 
-            // DotFile.gen(mlp.error.exitNode, "xor" + q + ".dot");
+            DotFile.gen(mlp.error.exitNode, "xor" + q + ".dot");
         }
 
-        for(int i = 0; i < validationXs.length; i++) {
+        for(int i = 0; i < origValidationXs.length; i++) {
                 
-                double [] preds = mlp.forward(validationXs[i]);
+                double [] preds = mlp.forward(origValidationXs[i]);
 
                 StringBuffer sb = new StringBuffer();
+
+                sb.append("Xs: ");
+                for (double d : origValidationXs[i]) {
+                    sb.append(d + " ");
+                }
 
                 sb.append("preds: ");
                 for (double d : preds) {
@@ -132,7 +142,7 @@ public class XORTest {
                 }
 
                 sb.append(" ys: ");
-                for (double d : validationYs[i]) {
+                for (double d : origValidationYs[i]) {
                     sb.append(d + " ");
                 }
 
