@@ -1,3 +1,4 @@
+# Neural networks and autodiff in Java
 
 Neural networks with automatic differentiation and backprop in Java from scratch. 
 
