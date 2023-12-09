@@ -49,5 +49,6 @@ The MSE error is plotted here.
 
 - Pluggable loss functions
 - Pluggable weight initialization tactics
+- Pluggable activation functions
 - Try MNIST. Would be interesting to see if it would be possible to learn recognize the MNIST hand written digits.
 - Vectorization. Maybe some simple CPU based (AVX) vectorization at first.
