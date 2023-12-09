@@ -1,12 +1,14 @@
 
-Neural networks with automatic differentiation and backprop in Java from scratch.
+Neural networks with automatic differentiation and backprop in Java from scratch. 
 
-Two parts:
+Code has two main parts:
 
 - Automatic differentiation which uses chain rule to calculate gradients for a computation graph. 
 - Neural network structure which uses the automatic differentiation (autodiff) to learn.
 
 ## Test cases:
+
+In addition to unit tests it's good to have some full functionality test cases of varying difficulty.
 
 ### Flip a sign
 
@@ -45,8 +47,7 @@ The MSE error is plotted here.
 
 ## TODO:
 
-Try:
-
-- MNIST. Would be interesting to see if it would be possible to learn recognize the MNIST hand written digits.
-
+- Pluggable loss functions
+- Pluggable weight initialization tactics
+- Try MNIST. Would be interesting to see if it would be possible to learn recognize the MNIST hand written digits.
 - Vectorization. Maybe some simple CPU based (AVX) vectorization at first.
