@@ -9,10 +9,16 @@ public class Util {
     
     static Random rand = new Random(1);
     
+    /*
+     * Random values with uniform distribution
+     */
     public static double rangeRand(double min, double max) {
         return min + (max - min) * rand.nextDouble();
     }
 
+    /*
+     * Random values with gaussian distribution
+     */
     public static double rangeGaussian(double range) {
         return range * rand.nextGaussian();
     }

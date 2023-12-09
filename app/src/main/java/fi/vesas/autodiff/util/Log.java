@@ -3,6 +3,9 @@ package fi.vesas.autodiff.util;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/*
+ * Logs values to csv file
+ */
 public class Log {
     
     private static FileWriter writer = null;

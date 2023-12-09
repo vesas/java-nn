@@ -10,6 +10,9 @@ import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Mul;
 import fi.vesas.autodiff.grad.Value;
 
+/*
+ * Writes graphviz dot files
+ */
 public class DotFile {
 
 

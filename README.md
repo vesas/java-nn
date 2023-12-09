@@ -1,5 +1,10 @@
 
-Neural networks with automatic differentiation and backprop in java. 
+Neural networks with automatic differentiation and backprop in java from scratch.
+
+Two parts:
+
+- Automatic differentiation which uses chain rule to calculate gradients for a computation graph. 
+- Neural network structure which uses the automatic differentiation (autodiff) to learn.
 
 ## Test cases:
 
@@ -30,5 +35,6 @@ The MSE error is plotted here.
 
 Try:
 
--MNIST
--Vectorization
+- MNIST. Would be interesting to see if it would be possible to learn recognize the MNIST hand written digits.
+
+- Vectorization. Maybe some simple CPU based (AVX) vectorization at first.
