@@ -4,7 +4,6 @@ import fi.vesas.autodiff.grad.AddMany;
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Mul;
 import fi.vesas.autodiff.grad.Square;
-import fi.vesas.autodiff.grad.SquareRoot;
 import fi.vesas.autodiff.grad.Sub;
 import fi.vesas.autodiff.grad.Value;
 
@@ -16,7 +15,7 @@ public class Error {
     public GradNode exitNode;
 
     /*
-     * Inputs are the predictions for which we want to calculate the error
+     * Inputs are the network nodes for which we want to calculate the error, usually output of the neural network
      */
     public Error(GradNode [] inputs) {
         this.yhat = inputs;
@@ -65,9 +64,17 @@ public class Error {
 
     public void debug() {
 
+        System.out.println("Error debug");
+        double sum = 0.0;
         for(int i = 0; i < this.truth.length; i++) {
+
+            double temp = this.truth[i].value - this.yhat[i].forward();
+
+            sum += temp * temp;
             System.out.println("yhat " + this.yhat[i].forward() + " truth " + i + " " + this.truth[i].value);
         }
+
+        System.out.println("MSE: " + (sum / this.truth.length));
     }
 
 }
