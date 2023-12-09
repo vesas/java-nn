@@ -29,13 +29,13 @@ The following diagram depicts the structure of the neural network which learns t
 
 ```mermaid
 graph LR;
-Input1 --> L1_N1[Neuron 1]
-Input2 --> L1_N1[Neuron 1]
-Input1 --> L1_N2[Neuron 2]
-Input2 --> L1_N2[Neuron 2]
+Input1 --> L1_N1[Hidden layer neuron 1]
+Input2 --> L1_N1[Hidden layer neuron 1]
+Input1 --> L1_N2[Hidden layer neuron 2]
+Input2 --> L1_N2[Hidden layer neuron 2]
 
-L1_N1[Neuron 1] --> L2_N1[Output Neuron 1]
-L1_N2[Neuron 2] --> L2_N1[Output Neuron 1]
+L1_N1[Neuron 1] --> L2_N1[Output neuron 1]
+L1_N2[Neuron 2] --> L2_N1[Output neuron 1]
 ```
 
 
