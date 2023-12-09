@@ -33,15 +33,9 @@ Input1 --> L1_N1[Neuron 1]
 Input2 --> L1_N1[Neuron 1]
 Input1 --> L1_N2[Neuron 2]
 Input2 --> L1_N2[Neuron 2]
-Input1 --> L1_N3[Neuron 3]
-Input2 --> L1_N3[Neuron 3]
-Input1 --> L1_N4[Neuron 4]
-Input2 --> L1_N4[Neuron 4]
 
 L1_N1[Neuron 1] --> L2_N1[Output Neuron 1]
 L1_N2[Neuron 2] --> L2_N1[Output Neuron 1]
-L1_N3[Neuron 3] --> L2_N1[Output Neuron 1]
-L1_N4[Neuron 4] --> L2_N1[Output Neuron 1]
 ```
 
 
