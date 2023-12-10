@@ -5,7 +5,7 @@ Neural networks with automatic differentiation and backprop in Java from scratch
 Code has two main parts:
 
 - Automatic differentiation which uses chain rule to calculate gradients for a computation graph. 
-- Neural network structure which uses the automatic differentiation (autodiff) to learn.
+- Neural network structure which uses the automatic differentiation (autodiff) to learn. This is done by minimizing the loss function by gradient descent using the calculated gradients.
 
 ## Test cases:
 
