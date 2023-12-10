@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import fi.vesas.autodiff.grad.Util;
 import fi.vesas.autodiff.grad.Value;
+import fi.vesas.autodiff.loss.MSELoss;
 
 public class ErrorTest {
     
@@ -33,7 +34,7 @@ public class ErrorTest {
         System.out.println(String.format("inputs: %.9f %.9f %.9f", inputs[0].value, inputs[1].value, inputs[2].value));
         
 
-        Error e = new Error(inputs);
+        MSELoss e = new MSELoss(inputs);
 
         e.setTruth(t1, t2, t3);
 

@@ -1,4 +1,4 @@
-package fi.vesas.autodiff.autodiffnn;
+package fi.vesas.autodiff.loss;
 
 import fi.vesas.autodiff.grad.AddMany;
 import fi.vesas.autodiff.grad.GradNode;
@@ -7,7 +7,7 @@ import fi.vesas.autodiff.grad.Square;
 import fi.vesas.autodiff.grad.Sub;
 import fi.vesas.autodiff.grad.Value;
 
-public class Error {
+public class MSELoss implements LossInterface {
 
     public GradNode [] yhat;
     public Value [] truth;
@@ -17,7 +17,7 @@ public class Error {
     /*
      * Inputs are the network nodes for which we want to calculate the error, usually output of the neural network
      */
-    public Error(GradNode [] inputs) {
+    public MSELoss(GradNode [] inputs) {
         this.yhat = inputs;
 
         this.truth = new Value[inputs.length];
@@ -49,6 +49,10 @@ public class Error {
         return this.exitNode.forward();
     }
 
+    public void zeroGrads() {
+		this.exitNode.zeroGrads();
+	}
+
     public void backward(double [] y) {
 
         // set the ground truth values to the loss function
@@ -61,6 +65,8 @@ public class Error {
         exitNode.backward();
 
     }
+
+
 
     public void debug() {
 

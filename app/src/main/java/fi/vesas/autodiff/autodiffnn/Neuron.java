@@ -14,7 +14,7 @@ public class Neuron {
     public AddMany adds;
     public Value bias;
 
-    public Tanh tanh = null;
+    public GradNode activation = null;
 
     public GradNode [] inputs;
     private String label;
@@ -40,36 +40,23 @@ public class Neuron {
 
         adds = new AddMany(result, this.label + "am");
 
-        this.tanh = new Tanh(adds, this.label + "t");
-
+        this.activation = new Tanh(adds, this.label + "t");
     }
 
     public double forward() {
-        return this.tanh.forward();
+        return this.activation.forward();
     }
 
-    public void zeroGrads() {
-
-        for (int i = 0; i < inputs.length; i++ ) {
-            weights[i].zeroGrads();
-            muls[i].zeroGrads();
-        }
-        this.bias.zeroGrads();
-        this.adds.zeroGrads();
-        this.tanh.zeroGrads();
-	}
-
     public void backward() {
-
-        this.tanh.backward();
+        this.activation.backward();
     }
 
     public void recordWeights() {
             
-            for (int i = 0; i < inputs.length; i++ ) {
-                Stats.recordNeuronWeights(label, weights[i].value);
-            }
-            Stats.recordNeuronBias(label, this.bias.value);
+        for (int i = 0; i < inputs.length; i++ ) {
+            Stats.recordNeuronWeights(label, weights[i].value);
+        }
+        Stats.recordNeuronBias(label, this.bias.value);
     }
 
     public void updateWeights(double learningRate) {

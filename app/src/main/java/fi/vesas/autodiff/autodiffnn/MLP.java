@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Value;
+import fi.vesas.autodiff.loss.LossInterface;
+import fi.vesas.autodiff.loss.MSELoss;
 
 public class MLP {
 
 	public InputLayer inputLayer;
     public DenseLayer[] denseLayers;
-	public Error error = null;
+	public LossInterface loss = null;
 
 	public MLP() {
 
@@ -31,7 +33,7 @@ public class MLP {
 			inputs = denseLayers[i-1].getOutputs();
 		}
 
-		error = new Error(inputs);
+		loss = new MSELoss(inputs);
 		
 	}
 
@@ -63,7 +65,7 @@ public class MLP {
 	}
 
 	public void zeroGrads() {
-		error.exitNode.zeroGrads();
+		loss.zeroGrads();
 	}
 
 	public void backward(double [] y) {
@@ -73,7 +75,7 @@ public class MLP {
 			layer.recordWeights();
 		}
 
-		error.backward(y);
+		loss.backward(y);
 	}
 	
 	public void updateWeights(double learningRate) {

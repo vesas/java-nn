@@ -106,9 +106,8 @@ public final class LearnXOR {
             int batchCounter = 0;
             for(int i = 0; i < randomizedTrainXs.length; i++) {
                 
-                int index = rand.nextInt(trainXs.length);
-                double [] preds = mlp.forward(trainXs[index]);
-                mlp.backward(trainYs[index]);
+                double [] preds = mlp.forward(randomizedTrainXs[i]);
+                mlp.backward(randomizedTrainYs[i]);
 
                 StringBuffer sb = new StringBuffer();
 
@@ -118,7 +117,7 @@ public final class LearnXOR {
                 }
 
                 sb.append(" ys: ");
-                for (double d : trainYs[index]) {
+                for (double d : randomizedTrainYs[i]) {
                     sb.append(d + " ");
                 }
 
@@ -138,13 +137,8 @@ public final class LearnXOR {
 
                 double [] preds = mlp.forward(validationXs[i]);
 
-                mlp.error.setTruth(validationYs[i][0]);
-
-                GradNode [] gradNodes = mlp.denseLayers[mlp.denseLayers.length -1].getOutputs();
-
-                double res = gradNodes[0].forward();
-                
-                double err = mlp.error.exitNode.forward();
+                mlp.loss.setTruth(validationYs[i][0]);                
+                double err = mlp.loss.forward();
                 // System.out.println("error: " + err);
                 error += err;
 
@@ -182,8 +176,7 @@ public final class LearnXOR {
             
         }
 
-        mlp.error.debug();
-        System.out.println("Error exitnode reports: " + mlp.error.exitNode.forward());
+        System.out.println("Error exitnode reports: " + mlp.loss.forward());
 
         XYChart chart = QuickChart.getChart("Learning curve", "Epoch", "MSE", "MSE", log.getIndexes1(), log.getValues1());
         

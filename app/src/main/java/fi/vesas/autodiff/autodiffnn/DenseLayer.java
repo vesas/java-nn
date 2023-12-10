@@ -25,7 +25,7 @@ public class DenseLayer {
         GradNode [] outputs = new GradNode[neurons.length];
 
         for(int i = 0; i < neurons.length; i++) {
-            outputs[i] = neurons[i].tanh;
+            outputs[i] = neurons[i].activation;
         }
 
         return outputs;
@@ -41,12 +41,6 @@ public class DenseLayer {
 
         return y;
     }
-
-    public void zeroGrads() {
-        for(int i = 0; i < neurons.length; i++) {
-            neurons[i].zeroGrads();
-        }
-	}
 
     public void backward() {
 

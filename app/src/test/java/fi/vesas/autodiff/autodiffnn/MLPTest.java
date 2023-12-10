@@ -49,7 +49,7 @@ public class MLPTest {
 
             mlp.updateWeights(learningRate);
             mlp.zeroGrads();
-            double errorAfter = mlp.error.exitNode.forward();
+            double errorAfter = mlp.loss.forward();
             StringBuffer sb = new StringBuffer();
             sb.append("error: " + errorAfter + " ");
             System.out.println(sb.toString());
@@ -96,7 +96,7 @@ public class MLPTest {
 
             mlp.updateWeights(learningRate);
             mlp.zeroGrads();
-            double errorAfter = mlp.error.exitNode.forward();
+            double errorAfter = mlp.loss.forward();
             StringBuffer sb = new StringBuffer();
             sb.append("error: " + errorAfter + " ");
             System.out.println(sb.toString());
