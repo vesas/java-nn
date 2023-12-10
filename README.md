@@ -41,10 +41,9 @@ L1_N1[Hidden layer neuron 1] --> L2_N1[Output neuron 1]
 L1_N2[Hidden layer neuron 2] --> L2_N1[Output neuron 1]
 ```
 
+The error between predicted values and the ground truth values is what we are trying to minimize. Here we are using mean squared error (MSE) function. The MSE error for the training run is plotted here ("the learning curve").
 
-The MSE error is plotted here.
-
-![Alt text](./readme_img/xor_error.png "error chart")
+![Alt text](./readme_img/xor_error.png "Learning curve")
 
 ## TODO:
 
@@ -53,3 +52,9 @@ The MSE error is plotted here.
 - Pluggable activation functions
 - Try MNIST. Would be interesting to see if it would be possible to learn recognize the MNIST hand written digits.
 - Vectorization. Maybe some simple CPU based (AVX) vectorization at first.
+
+
+## Dependencies
+
+XChart for plotting https://github.com/knowm/XChart
+
