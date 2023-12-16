@@ -16,7 +16,7 @@ public class AddTest {
 
         double diff = Util.diff(c, a);
 
-        // check that the backprogapaged gradient matches the forward pass estimate
+        // check that the backpropagated gradient matches the forward pass estimate
         double grad = a.grad;
         assertEquals(diff, grad, 0.0001);
     }

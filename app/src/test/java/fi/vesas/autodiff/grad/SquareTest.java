@@ -49,7 +49,7 @@ public class SquareTest {
         // how much did the value change
         double diff = (val2 - val1) / h;
 
-        // check that the backprogapaged gradient matches the forward pass estimate
+        // check that the backpropagated gradient matches the forward pass estimate
         double grad = a.grad;
         assertEquals(diff, grad , 0.0001);
     }
@@ -72,7 +72,7 @@ public class SquareTest {
         // how much did the value change
         double diff = (val2 - val1) / h;
 
-        // check that the backprogapaged gradient matches the forward pass estimate
+        // check that the backpropagated gradient matches the forward pass estimate
         double grad = a.grad;
         assertEquals(diff, grad , 0.0001);
     }

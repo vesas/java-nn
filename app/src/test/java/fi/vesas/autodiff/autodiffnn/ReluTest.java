@@ -21,7 +21,7 @@ public class ReluTest {
 
         double diff = Util.diff(r, a);
 
-        // check that the backprogapaged gradient matches the forward pass estimate
+        // check that the backpropagated gradient matches the forward pass estimate
         double grad = a.grad;
         assertEquals(diff, grad , 0.0001);
     }
@@ -35,7 +35,7 @@ public class ReluTest {
 
         double diff = Util.diff(r, a);
 
-        // check that the backprogapaged gradient matches the forward pass estimate
+        // check that the backpropagated gradient matches the forward pass estimate
         double grad = a.grad;
         assertEquals(diff, grad , 0.0001);
     }

@@ -18,13 +18,8 @@ class NeuronTest {
         Value v2 = new Value(3.0);
         
         Neuron n = new Neuron( new Value[] { v1, v2}, "neuron1");
-        /*
-        GradNode adds = n.adds;
-        Activation activation = new Sigmoid(adds, "label" + "t");
-        activation.setInput(adds);
-        n.activation = ((GradNode)activation);
-         */
-
+        n.setActivation(new Sigmoid());
+        
         n.weights[0].value = 0.0;
         n.weights[1].value = 1.0;
         n.bias.value = 0.0;
@@ -52,6 +47,7 @@ class NeuronTest {
         Value v2 = new Value(-3.0);
         
         Neuron n = new Neuron( new Value[] { v1, v2}, "neuron1");
+        n.setActivation(new Sigmoid());
 
         n.weights[0].value = 0.0;
         n.weights[1].value = 1.0;
