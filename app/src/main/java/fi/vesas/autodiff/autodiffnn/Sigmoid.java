@@ -2,9 +2,12 @@ package fi.vesas.autodiff.autodiffnn;
 
 import fi.vesas.autodiff.grad.GradNode;
 
-public class Sigmoid extends GradNode {
+public class Sigmoid extends GradNode implements Activation {
 
     public GradNode x;
+
+    public Sigmoid() {
+    }
 
     public Sigmoid(GradNode x) {
         this.x = x;
@@ -13,6 +16,11 @@ public class Sigmoid extends GradNode {
     public Sigmoid(GradNode x, String label) {
         this.x = x;
         this.label = label;
+    }
+
+    @Override
+    public void setInput(GradNode x) {
+        this.x = x;
     }
 
     public static double value(double value) {
@@ -27,10 +35,9 @@ public class Sigmoid extends GradNode {
 
     @Override
     public void grad(double g) {
-
         this.grad = g;
         double temp = this.forward();
-        this.x.grad((1 - temp *  temp ) * g);
+        this.x.grad((temp * (1 - temp)) * g);
     }
 
     @Override

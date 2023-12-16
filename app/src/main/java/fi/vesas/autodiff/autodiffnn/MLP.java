@@ -4,10 +4,11 @@ import java.util.Arrays;
 
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Value;
+import fi.vesas.autodiff.loss.CrossEntropyLoss;
 import fi.vesas.autodiff.loss.LossInterface;
 import fi.vesas.autodiff.loss.MSELoss;
 
-public class MLP {
+public class MLP implements Model {
 
 	public InputLayer inputLayer;
     public DenseLayer[] denseLayers;
@@ -33,8 +34,8 @@ public class MLP {
 			inputs = denseLayers[i-1].getOutputs();
 		}
 
+		// loss = new CrossEntropyLoss(inputs);
 		loss = new MSELoss(inputs);
-		
 	}
 
 	public void setInputValues(double[] x) {
@@ -66,6 +67,10 @@ public class MLP {
 
 	public void zeroGrads() {
 		loss.zeroGrads();
+	}
+
+	public LossInterface getLoss() {
+		return loss;
 	}
 
 	public void backward(double [] y) {

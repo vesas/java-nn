@@ -44,7 +44,7 @@ public class Add extends GradNode {
 
     @Override
     public String toDotString() {
-        return "Add";
+        return "Add_" + label;
     }
 
     @Override

@@ -15,7 +15,7 @@ public class ReluTest {
     @Test
     public void test1() {
         Value a = new Value(3.0f);
-        Relu r = new Relu(a);
+        Linear r = new Linear(a);
         
         r.backward();
 
@@ -29,7 +29,7 @@ public class ReluTest {
     @Test
     public void test2() {
         Value a = new Value(-4.0f);
-        Relu r = new Relu(a);
+        Linear r = new Linear(a);
         
         r.backward();
 

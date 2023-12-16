@@ -6,13 +6,20 @@ import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
-import fi.vesas.autodiff.autodiffnn.MLP;
+import fi.vesas.autodiff.autodiffnn.DenseLayer;
+import fi.vesas.autodiff.autodiffnn.InputLayer;
+import fi.vesas.autodiff.autodiffnn.Linear;
+import fi.vesas.autodiff.autodiffnn.Model;
+import fi.vesas.autodiff.autodiffnn.ModelBuilder;
+import fi.vesas.autodiff.autodiffnn.Sigmoid;
+import fi.vesas.autodiff.loss.MSELoss;
 import fi.vesas.autodiff.util.Log;
 import fi.vesas.autodiff.util.LogToCsvFile;
+import fi.vesas.autodiff.util.Util;
 
-public final class LearnXOR {
+public final class LearnX2Function {
 
-    private LearnXOR () {}
+    private LearnX2Function () {}
 
     private Random rand = new Random();
 
@@ -38,24 +45,12 @@ public final class LearnXOR {
 
         Random rand = new Random(3);
 
-        // we have four cases
-        double [][] xscases = {{0.0,0.0},
-                        {0.0,1.0},
-                        {1.0,0.0},
-                        {1.0,1.0}};
-
-        // probabilities of 0 and 1
-        double [][] yscases = {{1.0, 0.0},
-                        {0.0,1.0},
-                        {0.0,1.0},
-                        {1.0,0.0}};
-
         int exampleCount = 4;
         int trainSize = 45;
         int validationSize = 16;
         int batchSize = 4;
-        int epochCount = 100;
-        double learningRate = 0.1;
+        int epochCount = 200;
+        double learningRate = 0.005;
 
         double [][] trainXs = new double[trainSize][];
         double [][] trainYs = new double[trainSize][];
@@ -71,19 +66,22 @@ public final class LearnXOR {
         // create some test data
         for(int i = 0; i < trainSize; i++) {
             int rnd = rand.nextInt(exampleCount);
+
+            double x = Util.rangeRand(-5, 5);
             
-            trainXs[i] = xscases[rnd];
-            trainYs[i] = yscases[rnd];
+            trainXs[i] = new double[]{x};
+            trainYs[i] = new double[]{x*x};
         }
 
         for(int i = 0; i < validationSize; i++) {
-            int rnd = rand.nextInt(exampleCount);
             
-            validationXs[i]     = xscases[rnd];
-            origValidationXs[i] = xscases[rnd];
+            double x = Util.rangeRand(-5, 5);
+            
+            validationXs[i]     = new double[]{x};
+            origValidationXs[i] = new double[]{x};
 
-            validationYs[i]     = yscases[rnd];
-            origValidationYs[i] = yscases[rnd];
+            validationYs[i]     = new double[]{x*x};
+            origValidationYs[i] = new double[]{x*x};
         }
 
         // trainXs = Util.normalize(trainXs, -1.0, 1.0);
@@ -92,17 +90,17 @@ public final class LearnXOR {
         // validationXs = Util.normalize(validationXs, -1.0, 1.0);
         // validationYs = Util.normalize(validationYs, -1.0, 1.0);
 
-        /*
+        
         Model model = new ModelBuilder()
-            .add(new InputLayer(2))
-            .add(new DenseLayer(4))
-            .add(new Tanh())
-            .add(new DenseLayer(2))
-            .add(new Tanh())
+            .add(new InputLayer(1))
+            .add(new DenseLayer(8))
+            .add(new Sigmoid())
+            .add(new DenseLayer(1))
+            .add(new Linear())
             .add(new MSELoss())
             .build();
-             */
-        MLP model = new MLP(new int[] {2, 4, 2});
+        
+        // MLP mlp = new MLP(new int[] {2, 4, 2});
 
         LogToCsvFile.logHeader("epoch", "error");
         for(int q = 0; q  < epochCount; q++) {
@@ -193,29 +191,37 @@ public final class LearnXOR {
         new SwingWrapper(chart).displayChart();
 
 
-        int correct = 0;
-        // make predictions
-        for(int i = 0; i < 1000; i++) {
+        double [][] values = new double[2][40];
+        double [] indexes = new double[40];
 
-            int r = rand.nextInt(exampleCount);
+        double stride = 10.0 / 40.0;
+        int counter = 0;
+        for(double i = -5; i < 5; i+= stride) {
 
-            double [] preds = model.forward(xscases[r]);
+            double [] x = new double[]{i};
+            double [] preds = model.forward(x);
 
-            if(preds[0] > 0.5 && yscases[r][0] == 1.0) {
-                correct++;
-            }
-            else if(preds[0] < 0.5 && yscases[r][0] == 0.0) {
-                correct++;
-            }
+            values[0][counter] = i * i;
+            values[1][counter] = preds[0];
+
+            indexes[counter] = i;
+            counter++;
         }
 
-        System.out.println("Correct: " + correct + " out of 1000");  
+        String [] labels = new String[2];
+        labels[0] = "Real";
+        labels[1] = "Predicted";
+        XYChart chart2 = QuickChart.getChart("Predicted vs. Real values", "X", "Y", labels, indexes, values);
+        
+        new SwingWrapper(chart2).displayChart();
+
+
     }
 
     public static void main(String[] args) {
         
-        LearnXOR learnXOR = new LearnXOR();
-        learnXOR.run();
+        LearnX2Function learnX2 = new LearnX2Function();
+        learnX2.run();
         
     }
 }

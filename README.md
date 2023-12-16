@@ -45,6 +45,19 @@ The error between predicted values and the ground truth values is what we are tr
 
 ![Alt text](./readme_img/xor_error.png "Learning curve")
 
+
+### Function prediction
+
+Make the network learn a simple function, in this case X^2. This is a simple toy problem for testing.
+
+Predictions vs. truth values: 
+
+![Alt text](./readme_img/func_preds.png "Predictions vs. truth values.")
+
+Learning curve:
+
+![Alt text](./readme_img/func_lc.png "Learning curve")
+
 ## TODO:
 
 - Pluggable loss functions

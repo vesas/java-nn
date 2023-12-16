@@ -40,7 +40,13 @@ public class Neuron {
 
         adds = new AddMany(result, this.label + "am");
 
-        this.activation = new Tanh(adds, this.label + "t");
+        // this.activation = new Sigmoid(adds, this.label + "t");
+        // this.activation = new Linear(adds);
+        this.activation = new Tanh(adds);
+    }
+
+    public GradNode getOutput() {
+        return this.activation != null ? this.activation : this.adds;
     }
 
     public double forward() {

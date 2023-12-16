@@ -2,8 +2,11 @@ package fi.vesas.autodiff.autodiffnn;
 
 import fi.vesas.autodiff.grad.GradNode;
 
-public class Tanh extends GradNode {
+public class Tanh extends GradNode implements Activation {
     public GradNode x;
+
+    public Tanh() {
+    }
 
     public Tanh(GradNode x) {
         this.x = x;
@@ -16,6 +19,11 @@ public class Tanh extends GradNode {
 
     public static double value(double x) {
         return Math.tanh(x);
+    }
+
+    @Override
+    public void setInput(GradNode x) {
+        this.x = x;
     }
 
     public static double derivative(double x) {

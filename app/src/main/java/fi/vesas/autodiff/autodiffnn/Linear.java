@@ -2,14 +2,17 @@ package fi.vesas.autodiff.autodiffnn;
 
 import fi.vesas.autodiff.grad.GradNode;
 
-public class Relu extends GradNode implements Activation {
+/*
+ * Linear activation, can be used for example to debug
+ */
+public class Linear extends GradNode implements Activation {
 
     public GradNode x;
 
-    public Relu() {
+    public Linear() {
     }
 
-    public Relu(GradNode x) {
+    public Linear(GradNode x) {
         this.x = x;
     }
 
@@ -18,26 +21,14 @@ public class Relu extends GradNode implements Activation {
         this.x = x;
     }
 
-    private static double max(double x, double y) {
-        return x > y ? x : y;
-    }
-
-    public static double value(double x) {
-        return max(0, x);
-    }
-
     public double forward() {
-        return value(this.x.forward());
+        return this.x.forward();
     }
 
     @Override
     public void grad(double g) {
-        if (this.x.forward() > 0) {
-            this.x.grad(g);
-        }
-        else {
-            this.x.grad(0);
-        }
+        this.grad = g;
+        this.x.grad(g);
     }
 
     @Override
@@ -48,7 +39,7 @@ public class Relu extends GradNode implements Activation {
 
     @Override
     public String toDotString() {
-        return "Relu";
+        return "Linear";
     }
 
     @Override

@@ -34,7 +34,7 @@ public class SquareRoot extends GradNode {
 
     @Override
     public String toDotString() {
-        return "SquareRoot";
+        return "SquareRoot_" + label;
     }
 
     @Override

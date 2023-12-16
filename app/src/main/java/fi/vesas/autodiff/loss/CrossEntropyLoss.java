@@ -1,47 +1,54 @@
 package fi.vesas.autodiff.loss;
 
+import fi.vesas.autodiff.grad.Add;
 import fi.vesas.autodiff.grad.AddMany;
 import fi.vesas.autodiff.grad.GradNode;
+import fi.vesas.autodiff.grad.Log;
 import fi.vesas.autodiff.grad.Mul;
-import fi.vesas.autodiff.grad.Square;
 import fi.vesas.autodiff.grad.Sub;
 import fi.vesas.autodiff.grad.Value;
 
-public class MSELoss implements LossInterface {
-
+public class CrossEntropyLoss implements LossInterface {
+ 
     public GradNode [] yhat;
     public Value [] truth;
 
     public GradNode exitNode;
 
-    public MSELoss() {}
+    public CrossEntropyLoss() {}
 
-    /*
-     * Inputs are the nodes for which we want to calculate the error, usually output of the neural network
-     */
-    public MSELoss(GradNode [] inputs) {
+    public CrossEntropyLoss(GradNode [] inputs) {
         initialize(inputs);
     }
 
     private void initialize(GradNode [] inputs) {
+
         this.yhat = inputs;
 
         this.truth = new Value[inputs.length];
 
-        GradNode [] squares = new GradNode[inputs.length];
+        GradNode [] subs = new GradNode[inputs.length];
 
         for(int i = 0; i < this.truth.length; i++) {
             this.truth[i] = new Value(0.0, "_e" + i);
+            Log log = new Log(inputs[i], "log" + i);
+            Mul mul = new Mul(this.truth[i], log, "e" + i);
 
-            squares[i] = new Square(new Sub(this.truth[i], inputs[i], "e" + i), "e" + i);
+            Sub sub1 = new Sub(new Value(1.0), this.truth[i], "-sum");
+            Sub sub2 = new Sub(new Value(1.0), inputs[i], "-sum");
+
+            Log log2 = new Log(sub2, "log_2_" + i);
+
+            Mul mul2 = new Mul(sub1, log2, "e" + i);
+
+            Add add = new Add(mul, mul2);
+            Sub sub = new Sub(new Value(0.0), add, "-sub");
+            subs[i] = sub;
         }
 
-        AddMany sum = new AddMany(squares);
-        Mul mul = new Mul(sum, new Value( 1.0 / squares.length));
+        AddMany sum = new AddMany(subs);
 
-        this.exitNode = mul;
-        // add this for mean squared root error
-        // this.exitNode = new SquareRoot(mul);
+        this.exitNode = sum;
     }
 
     public void setInputs(GradNode [] inputs) {
@@ -75,20 +82,4 @@ public class MSELoss implements LossInterface {
         exitNode.backward();
 
     }
-    
-    public void debug() {
-
-        System.out.println("Error debug");
-        double sum = 0.0;
-        for(int i = 0; i < this.truth.length; i++) {
-
-            double temp = this.truth[i].value - this.yhat[i].forward();
-
-            sum += temp * temp;
-            System.out.println("yhat " + this.yhat[i].forward() + " truth " + i + " " + this.truth[i].value);
-        }
-
-        System.out.println("MSE: " + (sum / this.truth.length));
-    }
-
 }

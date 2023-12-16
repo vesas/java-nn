@@ -29,8 +29,13 @@ public class Power extends GradNode {
     }
 
     @Override
+    public String toString() {
+        return "Power() = " + String.format("%.05f", this.forward()) + ", grad=" + String.format("%.05f", this.grad) + ")";
+    }
+
+    @Override
     public String toDotString() {
-        return "Power()" + " = " + String.format("%.05f", this.forward()) + "";
+        return "Power_" + label;
     }
 
     @Override
