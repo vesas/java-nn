@@ -40,7 +40,7 @@ public class DenseLayer {
 
             GradNode adds = neuron.adds;
             activation.setInput(adds);
-            neuron.activation = ((GradNode)activation);
+            neuron.activation = (GradNode)activation;
         }
     }
 
@@ -66,17 +66,14 @@ public class DenseLayer {
     }
 
     public void backward() {
-
-        for(int i = 0; i < neurons.length; i++) {
-            neurons[i].backward();
-
+        for (Neuron neuron : neurons) {
+            neuron.backward();
         }
     }
 
     public void recordWeights() {
-        for(int i = 0; i < neurons.length; i++) {
-            neurons[i].recordWeights();
-
+        for (Neuron neuron : neurons) {
+            neuron.recordWeights();
         }
     }
 

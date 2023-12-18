@@ -75,4 +75,39 @@ public class SigmoidTest {
         double grad = a.grad;
         assertEquals(diff, grad , 0.0001);
     }
+
+    @Test
+    public void testGradientAtZero() {
+
+        Value v = new Value(0.0f);
+        Sigmoid s = new Sigmoid(v);
+        s.backward();
+
+        // sigmoid should have gradient 0.25 at 0.0
+        assertEquals(0.25, v.grad , 0.0001);
+
+    }
+
+    @Test
+    public void testGradientAtLargeNegative() {
+
+        Value v = new Value(-100000.0f);
+        Sigmoid s = new Sigmoid(v);
+        s.backward();
+
+        // sigmoid should have sent a gradient to value near 0 at a large negative input value
+        assertEquals(0.0, v.grad , 0.001);
+    }
+
+    @Test
+    public void testGradientAtLargePositive() {
+
+        Value v = new Value(100000.0f);
+        Sigmoid s = new Sigmoid(v);
+        s.backward();
+
+        // sigmoid should have sent a gradient to value near 0 at a large input value
+        assertEquals(0.0, v.grad , 0.001);
+
+    }
 }

@@ -9,11 +9,11 @@ public class MulTest {
     static final double h = 0.0001f;
 
     @Test
-    public void test1() {
+    public void testGradientMatchesDiff() {
         Value a = new Value(3.0f);
         Value b = new Value(2.0f);
+
         Mul c = new Mul(a, b);
-        
         c.backward();
 
         double diff = Util.diff(c, a);
@@ -24,7 +24,18 @@ public class MulTest {
     }
 
     @Test
-    public void test2() {
+    public void testGradientsMatchParams() {
+        Value a = new Value(3.0f);
+        Value b = new Value(2.0f);
+        new Mul(a, b).backward();
+        
+        // multiply should send the other value as gradient
+        assertEquals(b.value, a.grad, 0.0001);
+        assertEquals(a.value, b.grad, 0.0001);
+    }
+
+    @Test
+    public void testGradientParams() {
 
         Value a = new Value(-0.22512219684853296);
         Value b = new Value(1.0);
@@ -33,7 +44,9 @@ public class MulTest {
         
         c.backward();
 
-        int qwe  = 0;
+        // in multiplication, each inputs forward value is the gradient on the other
+        assertEquals(1.0, a.grad, 0.0001);
+        assertEquals(-0.22512219684853296,  b.grad, 0.0001);
 
     }
 }

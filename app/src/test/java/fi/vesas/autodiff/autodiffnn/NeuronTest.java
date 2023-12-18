@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Mul;
 import fi.vesas.autodiff.grad.Value;
 

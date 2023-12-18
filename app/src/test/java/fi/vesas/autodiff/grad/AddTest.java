@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class AddTest {
     
     @Test
-    void test1() {
+    void testGradientMatchesDiff() {
         Value a = new Value(3.0f);
         Value b = new Value(1.0f);
         Add c = new Add(a, b);

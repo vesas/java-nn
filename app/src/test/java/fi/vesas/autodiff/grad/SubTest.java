@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class SubTest {
     
     @Test
-    public void test1() {
+    public void testNegativeValuesWithDiff() {
         Value a = new Value(-3.0f);
         Value b = new Value(-2.0f);
         Sub c = new Sub(a, b);
@@ -22,7 +22,7 @@ public class SubTest {
     }
 
     @Test
-    public void test2() {
+    public void testPositiveValuesWithDiff() {
         Value a = new Value(2.0f);
         Value b = new Value(4.0f);
         Sub c = new Sub(a, b);

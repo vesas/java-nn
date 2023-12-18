@@ -75,8 +75,7 @@ public class MLP implements Model {
 
 	public void backward(double [] y) {
 
-		for (int i = 0; i < denseLayers.length; i++) {
-			DenseLayer layer = denseLayers[i];
+		for(DenseLayer layer : denseLayers) {
 			layer.recordWeights();
 		}
 

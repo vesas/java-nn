@@ -6,7 +6,12 @@ import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
-import fi.vesas.autodiff.autodiffnn.MLP;
+import fi.vesas.autodiff.autodiffnn.DenseLayer;
+import fi.vesas.autodiff.autodiffnn.InputLayer;
+import fi.vesas.autodiff.autodiffnn.Model;
+import fi.vesas.autodiff.autodiffnn.ModelBuilder;
+import fi.vesas.autodiff.autodiffnn.Tanh;
+import fi.vesas.autodiff.loss.MSELoss;
 import fi.vesas.autodiff.util.Log;
 import fi.vesas.autodiff.util.LogToCsvFile;
 
@@ -54,8 +59,8 @@ public final class LearnXOR {
         int trainSize = 45;
         int validationSize = 16;
         int batchSize = 4;
-        int epochCount = 100;
-        double learningRate = 0.1;
+        int epochCount = 200;
+        double learningRate = 0.01;
 
         double [][] trainXs = new double[trainSize][];
         double [][] trainYs = new double[trainSize][];
@@ -92,7 +97,7 @@ public final class LearnXOR {
         // validationXs = Util.normalize(validationXs, -1.0, 1.0);
         // validationYs = Util.normalize(validationYs, -1.0, 1.0);
 
-        /*
+        
         Model model = new ModelBuilder()
             .add(new InputLayer(2))
             .add(new DenseLayer(4))
@@ -101,8 +106,8 @@ public final class LearnXOR {
             .add(new Tanh())
             .add(new MSELoss())
             .build();
-             */
-        MLP model = new MLP(new int[] {2, 4, 2});
+        
+        // MLP model = new MLP(new int[] {2, 4, 2});
 
         LogToCsvFile.logHeader("epoch", "error");
         for(int q = 0; q  < epochCount; q++) {
@@ -195,7 +200,7 @@ public final class LearnXOR {
 
         int correct = 0;
         // make predictions
-        for(int i = 0; i < 1000; i++) {
+        for(int i = 0; i < 100; i++) {
 
             int r = rand.nextInt(exampleCount);
 

@@ -1,10 +1,5 @@
 package fi.vesas.autodiff.autodiffnn;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 
 public class MLPTest {
