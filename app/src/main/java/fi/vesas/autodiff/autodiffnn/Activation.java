@@ -4,5 +4,5 @@ import fi.vesas.autodiff.grad.GradNode;
 
 public interface Activation {
     
-    public void setInput(GradNode x);
+    void setInput(GradNode x);
 }

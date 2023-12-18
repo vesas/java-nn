@@ -4,13 +4,13 @@ import fi.vesas.autodiff.grad.GradNode;
 
 public interface LossInterface {
     
-    public void setTruth(double ... t);
+    void setTruth(double ... t);
 
-    public void setInputs(GradNode [] inputs);
+    void setInputs(GradNode [] inputs);
 
-    public double forward();
+    double forward();
 
-    public void zeroGrads();
+    void zeroGrads();
 
-    public void backward(double [] y);
+    void backward(double [] y);
 }
