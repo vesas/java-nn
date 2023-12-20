@@ -10,7 +10,9 @@ import fi.vesas.autodiff.autodiffnn.DenseLayer;
 import fi.vesas.autodiff.autodiffnn.InputLayer;
 import fi.vesas.autodiff.autodiffnn.Model;
 import fi.vesas.autodiff.autodiffnn.ModelBuilder;
+import fi.vesas.autodiff.autodiffnn.Sigmoid;
 import fi.vesas.autodiff.autodiffnn.Tanh;
+import fi.vesas.autodiff.loss.CrossEntropyLoss;
 import fi.vesas.autodiff.loss.MSELoss;
 import fi.vesas.autodiff.util.Log;
 import fi.vesas.autodiff.util.LogToCsvFile;
@@ -49,18 +51,17 @@ public final class LearnXOR {
                         {1.0,0.0},
                         {1.0,1.0}};
 
-        // probabilities of 0 and 1
-        double [][] yscases = {{1.0, 0.0},
-                        {0.0,1.0},
-                        {0.0,1.0},
-                        {1.0,0.0}};
+        double [][] yscases = {{0.0},
+                        {1.0},
+                        {1.0},
+                        {0.0}};
 
         int exampleCount = 4;
         int trainSize = 45;
         int validationSize = 16;
-        int batchSize = 4;
-        int epochCount = 200;
-        double learningRate = 0.01;
+        int batchSize = 1;
+        int epochCount = 500;
+        double learningRate = 0.001;
 
         double [][] trainXs = new double[trainSize][];
         double [][] trainYs = new double[trainSize][];
@@ -101,9 +102,9 @@ public final class LearnXOR {
         Model model = new ModelBuilder()
             .add(new InputLayer(2))
             .add(new DenseLayer(4))
-            .add(new Tanh())
-            .add(new DenseLayer(2))
-            .add(new Tanh())
+            .add(new Sigmoid())
+            .add(new DenseLayer(1))
+            .add(new Sigmoid())
             .add(new MSELoss())
             .build();
         
@@ -206,6 +207,7 @@ public final class LearnXOR {
 
             double [] preds = model.forward(xscases[r]);
 
+            // double roundedPred = Math.round(preds[0]);
             if(preds[0] > 0.5 && yscases[r][0] == 1.0) {
                 correct++;
             }

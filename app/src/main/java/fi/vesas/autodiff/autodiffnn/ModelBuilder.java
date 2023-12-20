@@ -32,14 +32,13 @@ public class ModelBuilder {
         
         DenseLayer lastLayer = layers.get(layers.size() - 1);
         lastLayer.setActivation(activation);
+        this.lastOutputs = lastLayer.getOutputs();
         return this;
     }
 
     public ModelBuilder add(LossInterface loss) {
         
-        DenseLayer lastLayer = layers.get(layers.size() - 1);
-        GradNode [] inputs = lastLayer.getOutputs();
-		loss.setInputs(inputs);
+		loss.setInputs(this.lastOutputs);
         this.loss = loss;
         return this;
     }

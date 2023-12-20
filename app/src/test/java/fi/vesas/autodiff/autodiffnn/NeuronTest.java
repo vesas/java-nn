@@ -68,4 +68,23 @@ class NeuronTest {
         
     }
 
+    @Test
+    void testBiasAffectsOutput() {
+
+        Value v1 = new Value(0.0);
+        Value v2 = new Value(0.0);
+        
+        Neuron n = new Neuron( new Value[] { v1, v2}, "neuron1");
+        n.setActivation(new Linear());
+
+        n.weights[0].value = 0.0;
+        n.weights[1].value = 0.0;
+        n.bias.value = 1.0;
+
+        double val = n.forward();
+
+        assertEquals(1.0, val, 0.0001);
+        
+    }
+
 }

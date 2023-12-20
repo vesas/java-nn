@@ -2,6 +2,9 @@ package fi.vesas.autodiff.autodiffnn;
 
 import org.junit.jupiter.api.Test;
 
+import fi.vesas.autodiff.grad.GradNode;
+import fi.vesas.autodiff.loss.MSELoss;
+
 public class MLPTest {
     
     /**
@@ -97,5 +100,45 @@ public class MLPTest {
             System.out.println(sb.toString());
         }
     }
+    
+    @Test
+    public void testConstruction() {
+        Model model = new ModelBuilder()
+            .add(new InputLayer(2))
+            .add(new DenseLayer(4))
+            .add(new Linear())
+            .add(new DenseLayer(1))
+            .add(new Linear())
+            .add(new MSELoss())
+            .build();
 
+        MLP mlp = (MLP)model;
+
+        mlp.inputLayer.setInputValues(new double[] {0.0, 0.0});
+        
+        DenseLayer dense0 = mlp.denseLayers[0];
+        dense0.neurons[0].weights[0].value = 0.0;
+        dense0.neurons[0].weights[1].value = 0.0;
+        dense0.neurons[0].bias.value = 1.0;
+        dense0.neurons[1].weights[0].value = 0.0;
+        dense0.neurons[1].weights[1].value = 0.0;
+        dense0.neurons[1].bias.value = 1.0;
+        dense0.neurons[2].weights[0].value = 0.0;
+        dense0.neurons[2].weights[1].value = 0.0;
+        dense0.neurons[2].bias.value = 1.0;
+        dense0.neurons[3].weights[0].value = 0.0;
+        dense0.neurons[3].weights[1].value = 0.0;
+        dense0.neurons[3].bias.value = 1.0;
+
+        DenseLayer dense1 = mlp.denseLayers[1];
+        dense1.neurons[0].weights[0].value = 1.0;
+        dense1.neurons[0].weights[1].value = 1.0;
+        dense1.neurons[0].weights[2].value = 0.0;
+        dense1.neurons[0].weights[3].value = 0.0;
+        dense1.neurons[0].bias.value = 0.0;
+
+        GradNode[] predictionHead = dense1.getOutputs();
+        double value = predictionHead[0].forward();
+
+    }
 }

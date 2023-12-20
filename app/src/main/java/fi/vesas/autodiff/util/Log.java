@@ -5,10 +5,10 @@ package fi.vesas.autodiff.util;
  */
 public class Log {
     
-    private double [] values1 = new double[2000];
+    private double [] values1 = new double[6000];
     private int index1 = 0;
 
-    private double [] values2 = new double[2000];
+    private double [] values2 = new double[6000];
     private int index2 = 0;
 
     public void init() {
