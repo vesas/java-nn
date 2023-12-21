@@ -186,6 +186,11 @@ public final class LearnX2Function {
             
         }
 
+        chartResults(model, log);
+
+    }
+
+    private void chartResults(Model model, Log log) {
         XYChart chart = QuickChart.getChart("Learning curve", "Epoch", "MSE", "MSE", log.getIndexes1(), log.getValues1());
         
         new SwingWrapper(chart).displayChart();
@@ -214,7 +219,6 @@ public final class LearnX2Function {
         XYChart chart2 = QuickChart.getChart("Predicted vs. Real values", "X", "Y", labels, indexes, values);
         
         new SwingWrapper(chart2).displayChart();
-
 
     }
 
