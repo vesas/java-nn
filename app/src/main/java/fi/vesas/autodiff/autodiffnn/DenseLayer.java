@@ -35,10 +35,11 @@ public class DenseLayer {
         }
     }
 
-    public void setActivation(Activation activation) {
+    public void setActivation(Activation activationProto) {
         for(Neuron neuron : neurons) {
 
             GradNode adds = neuron.adds;
+            Activation activation = activationProto.createInstance();
             activation.setInput(adds);
             neuron.activation = (GradNode)activation;
         }

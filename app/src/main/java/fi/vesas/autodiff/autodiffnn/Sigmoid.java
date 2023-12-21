@@ -63,4 +63,9 @@ public class Sigmoid extends GradNode implements Activation {
         GradNode [] children = {this.x};
         return children;
     }
+
+    @Override
+    public Activation createInstance() {
+        return new Sigmoid();
+    }
 }

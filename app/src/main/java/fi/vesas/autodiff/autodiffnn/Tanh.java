@@ -74,4 +74,9 @@ public class Tanh extends GradNode implements Activation {
         return children;
     }
 
+    @Override
+    public Activation createInstance() {
+        return new Tanh();
+    }
+
 }
