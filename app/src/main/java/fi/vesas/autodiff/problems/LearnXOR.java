@@ -8,11 +8,10 @@ import org.knowm.xchart.XYChart;
 
 import fi.vesas.autodiff.autodiffnn.DenseLayer;
 import fi.vesas.autodiff.autodiffnn.InputLayer;
+import fi.vesas.autodiff.autodiffnn.Linear;
 import fi.vesas.autodiff.autodiffnn.Model;
 import fi.vesas.autodiff.autodiffnn.ModelBuilder;
-import fi.vesas.autodiff.autodiffnn.Sigmoid;
-import fi.vesas.autodiff.autodiffnn.Tanh;
-import fi.vesas.autodiff.loss.CrossEntropyLoss;
+import fi.vesas.autodiff.autodiffnn.Relu;
 import fi.vesas.autodiff.loss.MSELoss;
 import fi.vesas.autodiff.util.Log;
 import fi.vesas.autodiff.util.LogToCsvFile;
@@ -57,11 +56,11 @@ public final class LearnXOR {
                         {0.0}};
 
         int exampleCount = 4;
-        int trainSize = 45;
-        int validationSize = 16;
-        int batchSize = 1;
-        int epochCount = 500;
-        double learningRate = 0.001;
+        int trainSize = 65;
+        int validationSize = 26;
+        int batchSize = 4;
+        int epochCount = 160;
+        double learningRate = 0.01;
 
         double [][] trainXs = new double[trainSize][];
         double [][] trainYs = new double[trainSize][];
@@ -102,14 +101,12 @@ public final class LearnXOR {
         Model model = new ModelBuilder()
             .add(new InputLayer(2))
             .add(new DenseLayer(4))
-            .add(new Sigmoid())
+            .add(new Relu())
             .add(new DenseLayer(1))
-            .add(new Sigmoid())
+            .add(new Linear())
             .add(new MSELoss())
             .build();
         
-        // MLP model = new MLP(new int[] {2, 4, 2});
-
         LogToCsvFile.logHeader("epoch", "error");
         for(int q = 0; q  < epochCount; q++) {
             System.out.print(">> epoch: " + q + " ");
@@ -194,14 +191,12 @@ public final class LearnXOR {
             
         }
 
-        XYChart chart = QuickChart.getChart("Learning curve", "Epoch", "MSE", "MSE", log.getIndexes1(), log.getValues1());
-        
-        new SwingWrapper(chart).displayChart();
-
+        chartResults(model, log);
 
         int correct = 0;
         // make predictions
-        for(int i = 0; i < 100; i++) {
+        final int predCount = 100;
+        for(int i = 0; i < predCount; i++) {
 
             int r = rand.nextInt(exampleCount);
 
@@ -216,8 +211,14 @@ public final class LearnXOR {
             }
         }
 
-        System.out.println("Correct: " + correct + " out of 1000");  
+        System.out.println("Correct: " + correct + " out of " + predCount);  
     }
+
+    private void chartResults(Model model, Log log) {
+        XYChart chart = QuickChart.getChart("Learning curve", "Epoch", "MSE", "MSE", log.getIndexes1(), log.getValues1());
+        new SwingWrapper(chart).displayChart();
+    }
+
 
     public static void main(String[] args) {
         

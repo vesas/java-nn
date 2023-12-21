@@ -41,7 +41,18 @@ L1_N1[Hidden layer neuron 1] --> L2_N1[Output neuron 1]
 L1_N2[Hidden layer neuron 2] --> L2_N1[Output neuron 1]
 ```
 
-The error between predicted values and the ground truth values is what we are trying to minimize. Here we are using mean squared error (MSE) function. The MSE error for the training run is plotted here ("the learning curve").
+The XOR problem is solvable with 2 hidden neurons, here I'm using 4 neurons and a Relu because it seems to learn faster. The network structure is initialized like this:
+
+        Model model = new ModelBuilder()
+            .add(new InputLayer(2))
+            .add(new DenseLayer(4))
+            .add(new Relu())
+            .add(new DenseLayer(1))
+            .add(new Linear())
+            .add(new MSELoss())
+            .build();
+
+The error between predicted values and the ground truth values is what we are trying to minimize. Here we are using mean squared error (MSE) function. The MSE error for the training run is plotted here ("the learning curve") for a learning session of 40 epochs.
 
 ![Alt text](./readme_img/xor_error.png "Learning curve")
 

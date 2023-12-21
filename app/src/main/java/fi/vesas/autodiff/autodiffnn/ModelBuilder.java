@@ -19,7 +19,7 @@ public class ModelBuilder {
         this.lastOutputs = inputLayer.getOutputs();
         return this;
     }
-
+    
     public ModelBuilder add(DenseLayer layer) {
         layers.add(layer);
         layer.setLabel("l" + layers.size());
