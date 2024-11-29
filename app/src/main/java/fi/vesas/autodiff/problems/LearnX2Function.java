@@ -23,6 +23,13 @@ public final class LearnX2Function {
 
     private Random rand = new Random();
 
+    public static void main(String[] args) {
+        
+        LearnX2Function learnX2 = new LearnX2Function();
+        learnX2.run();
+        
+    }
+
     private void randomizeOrder(double[][] x, double [][] y, double [][] resX, double [][] resY) {
 
         boolean [] used = new boolean[x.length];
@@ -222,10 +229,4 @@ public final class LearnX2Function {
 
     }
 
-    public static void main(String[] args) {
-        
-        LearnX2Function learnX2 = new LearnX2Function();
-        learnX2.run();
-        
-    }
 }

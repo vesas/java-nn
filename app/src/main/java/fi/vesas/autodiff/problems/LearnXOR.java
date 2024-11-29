@@ -20,6 +20,13 @@ public final class LearnXOR {
 
     private LearnXOR () {}
 
+    public static void main(String[] args) {
+        
+        LearnXOR learnXOR = new LearnXOR();
+        learnXOR.run();
+        
+    }
+    
     private Random rand = new Random();
 
     private void randomizeOrder(double[][] x, double [][] y, double [][] resX, double [][] resY) {
@@ -219,11 +226,4 @@ public final class LearnXOR {
         new SwingWrapper(chart).displayChart();
     }
 
-
-    public static void main(String[] args) {
-        
-        LearnXOR learnXOR = new LearnXOR();
-        learnXOR.run();
-        
-    }
 }

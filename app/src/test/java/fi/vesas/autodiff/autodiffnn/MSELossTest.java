@@ -1,10 +1,10 @@
 package fi.vesas.autodiff.autodiffnn;
 
-import org.junit.jupiter.api.Test;
-
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Value;
 import fi.vesas.autodiff.loss.MSELoss;
+
+import org.junit.jupiter.api.Test;
 
 public class MSELossTest {
     
