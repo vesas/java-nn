@@ -3,6 +3,7 @@ package fi.vesas.autodiff.autodiffnn;
 import java.util.ArrayList;
 import java.util.List;
 
+import fi.vesas.autodiff.autodiffnn.WeightInitializers.WeightInitializerInterface;
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.loss.LossInterface;
 
@@ -12,6 +13,13 @@ public class ModelBuilder {
     private InputLayer inputLayer;
     private List<DenseLayer> layers = new ArrayList<>();
     private LossInterface loss;
+
+    private WeightInitializerInterface weightInitializer;
+
+    public ModelBuilder setWeightInitializer(WeightInitializerInterface weightInitializer) {
+        this.weightInitializer = weightInitializer;
+        return this;
+    }
 
     public ModelBuilder add(InputLayer inputLayer) {
         this.inputLayer = inputLayer;
@@ -44,15 +52,19 @@ public class ModelBuilder {
     }
 
     public Model build() {
-        // return new Model(inputLayer);
         MLP mlp = new MLP();
         mlp.inputLayer = inputLayer;
-        Object [] arr = layers.toArray();
+        
         mlp.denseLayers = new DenseLayer[layers.size()];
-        layers.toArray(mlp.denseLayers);
+        for(int i = 0; i < layers.size(); i++) {
+            DenseLayer layer = layers.get(i);
+            if(weightInitializer != null) {
+                layer.setWeightInitializer(weightInitializer);
+            }
+            mlp.denseLayers[i] = layer;
+        }
 
         mlp.loss = loss;
         return mlp;
-
     }
 }

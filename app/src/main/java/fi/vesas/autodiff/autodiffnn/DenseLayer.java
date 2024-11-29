@@ -2,6 +2,7 @@ package fi.vesas.autodiff.autodiffnn;
 
 import java.util.Arrays;
 
+import fi.vesas.autodiff.autodiffnn.WeightInitializers.WeightInitializerInterface;
 import fi.vesas.autodiff.grad.GradNode;
 
 public class DenseLayer {
@@ -9,6 +10,7 @@ public class DenseLayer {
     private int size = 0;
     public Neuron [] neurons;
     private String label;
+    private WeightInitializerInterface weightInitializer;
 
     public DenseLayer(int size) {
         this.size = size;
@@ -24,6 +26,10 @@ public class DenseLayer {
         this.label = label;
     }
 
+    public void setWeightInitializer(WeightInitializerInterface weightInitializer) {
+        this.weightInitializer = weightInitializer;
+    }
+
     public void initialize(GradNode [] inputs) {
 
         this.neurons = new Neuron[size];
@@ -32,6 +38,10 @@ public class DenseLayer {
 
             Neuron n = new Neuron( inputs, label + "n" + i);
             neurons[i] = n;
+        }
+
+        if(weightInitializer != null) {
+            weightInitializer.initializeWeights(neurons, inputs.length);
         }
     }
 
