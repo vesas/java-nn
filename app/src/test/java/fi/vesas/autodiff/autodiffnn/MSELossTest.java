@@ -1,5 +1,7 @@
 package fi.vesas.autodiff.autodiffnn;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import fi.vesas.autodiff.grad.GradNode;
 import fi.vesas.autodiff.grad.Value;
 import fi.vesas.autodiff.loss.MSELoss;
@@ -7,23 +9,33 @@ import fi.vesas.autodiff.loss.MSELoss;
 import org.junit.jupiter.api.Test;
 
 public class MSELossTest {
-    
+
     @Test
-    public void test1() {
+    public void testForwardMatchesHandComputedMSE() {
+        Value yhat1 = new Value(0.5);
+        Value yhat2 = new Value(0.8);
+        double[] truth = { 1.0, 0.0 };
 
-        double [] preds = {0.0, 0.0, 0.0};
-        double [] ys = {1.0, 1.0};
+        GradNode[] nodes = { yhat1, yhat2 };
 
-        Value v1 = new Value(1.0);
-        Value v2 = new Value(1.0);
+        MSELoss loss = new MSELoss(nodes);
+        loss.setTruth(truth);
 
-        GradNode [] nodes =  {v1, v2};
+        // ((1.0 - 0.5)^2 + (0.0 - 0.8)^2) / 2 = (0.25 + 0.64) / 2 = 0.445
+        assertEquals(0.445, loss.forward(), 1e-9);
+    }
 
-        MSELoss e = new MSELoss(nodes);
-        e.setTruth(ys);
+    @Test
+    public void testZeroLossAtPerfectPrediction() {
+        Value yhat1 = new Value(1.0);
+        Value yhat2 = new Value(-2.0);
+        double[] truth = { 1.0, -2.0 };
 
-        double res = e.forward();
+        GradNode[] nodes = { yhat1, yhat2 };
 
-        System.out.println("res: " + res);
+        MSELoss loss = new MSELoss(nodes);
+        loss.setTruth(truth);
+
+        assertEquals(0.0, loss.forward(), 1e-12);
     }
 }

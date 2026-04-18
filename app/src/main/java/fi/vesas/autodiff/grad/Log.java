@@ -34,13 +34,13 @@ public class Log extends GradNode {
     }
 
     @Override
-    public String toString() { 
-        return "Log2() = " + String.format("%.05f", this.forward()) + ", grad=" + String.format("%.05f", this.grad) + ")";
+    public String toString() {
+        return "Log() = " + String.format("%.05f", this.forward()) + ", grad=" + String.format("%.05f", this.grad) + ")";
     }
 
     @Override
     public String toDotString() {
-        return "Log2_" + label;
+        return "Log_" + label;
     }
 
     @Override

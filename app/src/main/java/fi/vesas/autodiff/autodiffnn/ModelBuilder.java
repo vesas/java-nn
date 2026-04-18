@@ -31,6 +31,12 @@ public class ModelBuilder {
     public ModelBuilder add(DenseLayer layer) {
         layers.add(layer);
         layer.setLabel("l" + layers.size());
+        // Must plumb the initializer BEFORE initialize(); otherwise the layer's
+        // neurons are already populated with default weights and the initializer
+        // set later in build() is never used.
+        if (weightInitializer != null) {
+            layer.setWeightInitializer(weightInitializer);
+        }
         layer.initialize(lastOutputs);
         this.lastOutputs = layer.getOutputs();
         return this;
