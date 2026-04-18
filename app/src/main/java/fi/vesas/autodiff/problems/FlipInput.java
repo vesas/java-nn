@@ -10,6 +10,7 @@ import fi.vesas.autodiff.autodiffnn.Linear;
 import fi.vesas.autodiff.autodiffnn.Model;
 import fi.vesas.autodiff.autodiffnn.ModelBuilder;
 import fi.vesas.autodiff.autodiffnn.Tanh;
+import fi.vesas.autodiff.autodiffnn.WeightInitializers.HeInitializer;
 import fi.vesas.autodiff.loss.MSELoss;
 import fi.vesas.autodiff.util.Log;
 
@@ -28,7 +29,7 @@ public class FlipInput {
         for (int i = 0; i < numPoints; i++) {
             double x = -5 + (Math.random() * 10); // Random x between -5 and 5
             data[i][0] = x;
-            data[i][1] = x < -1 || (x > 0 && x < 1) ? 1.0 : -1.0; // Target function
+            data[i][1] = x < 0 ? 1.0 : -1.0; // Flip the sign of the input
         }
         return data;
     }
@@ -38,7 +39,14 @@ public class FlipInput {
         
         // Generate larger dataset
         double[][] allData = generateData(200);
-        
+
+        // Normalize x from [-5, 5] to [-1, 1] so the first Tanh layer isn't
+        // driven straight into saturation on epoch 0. Transitions in the
+        // target function move from {-1, 0, 1} to {-0.2, 0, 0.2}.
+        for (int i = 0; i < allData.length; i++) {
+            allData[i][0] /= 5.0;
+        }
+
         // Split into train/validation (80/20)
         int trainSize = (int)(allData.length * 0.8);
         double[][] trainX = new double[trainSize][1];
@@ -57,23 +65,26 @@ public class FlipInput {
             }
         }
         
-        double learningRate = 0.001;
+        double learningRate = 0.01;
 
         Model model = new ModelBuilder()
+            .setWeightInitializer(new HeInitializer())
             .add(new InputLayer(1))
-            .add(new DenseLayer(4))
+            .add(new DenseLayer(8))
             .add(new Tanh())
             .add(new DenseLayer(1))
-            .add(new Tanh())
+            // Linear output: tanh targets at exactly +/-1 would force the output
+            // tanh to saturate, where its derivative collapses and the weights
+            // stop moving. MSE on a linear output avoids that trap.
             .add(new MSELoss())
             .build();
 
         // Training loop with validation
         double bestValError = Double.MAX_VALUE;
-        int patience = 5;
+        int patience = 30;
         int noImprovement = 0;
-        
-        for(int epoch = 0; epoch < 100; epoch++) {
+
+        for(int epoch = 0; epoch < 300; epoch++) {
             // Training
             double trainError = trainEpoch(model, trainX, trainY, learningRate);
             
@@ -118,6 +129,10 @@ public class FlipInput {
         double valError = 0;
         for(int i = 0; i < x.length; i++) {
             model.forward(x[i]);
+            // setTruth is required before loss.forward(); otherwise the loss
+            // is computed against whatever truth the previous training step
+            // happened to leave behind.
+            model.getLoss().setTruth(y[i]);
             valError += model.getLoss().forward();
         }
         return valError / x.length;
