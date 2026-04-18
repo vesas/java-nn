@@ -65,12 +65,12 @@ public class FlipInput {
             }
         }
         
-        double learningRate = 0.01;
+        double learningRate = 0.05;
 
         Model model = new ModelBuilder()
             .setWeightInitializer(new HeInitializer())
             .add(new InputLayer(1))
-            .add(new DenseLayer(8))
+            .add(new DenseLayer(1))
             .add(new Tanh())
             .add(new DenseLayer(1))
             // Linear output: tanh targets at exactly +/-1 would force the output
